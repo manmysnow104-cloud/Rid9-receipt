@@ -11,7 +11,7 @@
 <style>
 :root {
   --navy: #0d2137; --blue: #1a4a7a; --sky: #2e7fc1;
-  --accent: #f0a500; --light: #e8f3fb; --white: #fff;
+  --accent: #f0a500; --light: #e8f3fb; --white: #000033;
   --gray: #6b7c8d; --border: #ccdde8; --bg: #f0f5fa;
   --green: #1b7a4e; --line-green: #06C755;
 }
@@ -24,7 +24,7 @@ body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--n
   box-shadow: 0 4px 20px rgba(13,33,55,.35);
 }
 .header-icon { width:48px; height:48px; background:var(--accent); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
-.header h1 { font-family:'Noto Serif Thai',serif; font-size:20px; color:#fff; line-height:1.35; }
+.header h1 { font-family:'Noto Serif Thai',serif; font-size:20px; color:#000033; line-height:1.35; }
 .header p  { font-size:12px; color:rgba(255,255,255,.6); margin-top:2px; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
@@ -39,7 +39,7 @@ body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--n
 .upload-zone p   { font-size:13px; color:var(--gray); }
 .upload-zone input { display:none; }
 .btn-up {
-  margin-top:18px; display:inline-block; background:var(--sky); color:#fff;
+  margin-top:18px; display:inline-block; background:var(--sky); color:#000033;
   padding:11px 30px; border-radius:9px; font-size:14px; font-weight:700;
   cursor:pointer; border:none; font-family:'Sarabun',sans-serif; transition:background .2s;
 }
@@ -70,15 +70,15 @@ select.dept {
   cursor:pointer; border:none; font-family:'Sarabun',sans-serif;
   transition:all .18s; display:flex; align-items:center; gap:5px; white-space:nowrap;
 }
-.btn-primary { background:var(--navy); color:#fff; }
+.btn-primary { background:var(--navy); color:#000033; }
 .btn-primary:hover { background:var(--blue); transform:translateY(-1px); }
 .btn-accent  { background:var(--accent); color:var(--navy); }
 .btn-accent:hover  { background:#d99200; transform:translateY(-1px); }
-.btn-outline { background:#fff; color:var(--navy); border:1.5px solid var(--border); }
+.btn-outline { background:#000033; color:var(--navy); border:1.5px solid var(--border); }
 .btn-outline:hover { border-color:var(--sky); color:var(--sky); }
-.btn-line { background:var(--line-green); color:#fff; }
+.btn-line { background:var(--line-green); color:#000033; }
 .btn-line:hover { background:#05a847; transform:translateY(-1px); }
-.btn-pdf  { background:#e74c3c; color:#fff; }
+.btn-pdf  { background:#e74c3c; color:#000033; }
 .btn-pdf:hover  { background:#c0392b; transform:translateY(-1px); }
 
 .tbl-wrap { background:var(--white); border-radius:14px; border:1px solid var(--border); overflow:hidden; box-shadow:0 2px 10px rgba(13,33,55,.06); }
@@ -96,9 +96,9 @@ tbody td { padding:11px 14px; font-size:13px; vertical-align:middle; }
 .act { display:flex; gap:6px; justify-content:center; }
 .btn-sm { padding:5px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; border:none; font-family:'Sarabun',sans-serif; transition:all .14s; }
 .btn-prev { background:var(--light); color:var(--blue); }
-.btn-prev:hover { background:var(--sky); color:#fff; }
+.btn-prev:hover { background:var(--sky); color:#000033; }
 .btn-dl   { background:#edf7f1; color:#1b7a4e; }
-.btn-dl:hover   { background:#1b7a4e; color:#fff; }
+.btn-dl:hover   { background:#1b7a4e; color:#000033; }
 tfoot tr { background:#e8f3fb; border-top:2px solid var(--sky); }
 tfoot td { padding:11px 14px; font-size:13px; font-weight:800; color:var(--navy); }
 tfoot td.sum-val { font-size:14px; color:var(--blue); }
@@ -107,14 +107,14 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .no-data { padding:50px; text-align:center; color:var(--gray); font-size:14px; }
 
 .pager { display:flex; gap:5px; align-items:center; justify-content:center; margin-top:18px; flex-wrap:wrap; }
-.pg { width:34px; height:34px; border-radius:7px; border:1.5px solid var(--border); background:#fff; cursor:pointer; font-size:13px; font-family:'Sarabun',sans-serif; font-weight:700; color:var(--navy); display:flex; align-items:center; justify-content:center; transition:all .14s; }
-.pg:hover, .pg.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.pg { width:34px; height:34px; border-radius:7px; border:1.5px solid var(--border); background:#000033; cursor:pointer; font-size:13px; font-family:'Sarabun',sans-serif; font-weight:700; color:var(--navy); display:flex; align-items:center; justify-content:center; transition:all .14s; }
+.pg:hover, .pg.on { background:var(--navy); color:#000033; border-color:var(--navy); }
 .pg-info { font-size:12px; color:var(--gray); padding:0 6px; }
 
 /* ── MODAL ── */
 .overlay { display:none; position:fixed; inset:0; background:rgba(13,33,55,.6); z-index:1000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
 .overlay.on { display:flex; }
-.modal { background:#fff; border-radius:18px; max-width:560px; width:100%; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.25); animation:up .22s ease; }
+.modal { background:#000033; border-radius:18px; max-width:560px; width:100%; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.25); animation:up .22s ease; }
 @keyframes up { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
 .mh { padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between; }
 .mh h3 { font-size:16px; font-weight:700; }
@@ -124,7 +124,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 
 /* Receipt */
 .receipt { margin:16px 24px; border:1.5px solid var(--navy); border-radius:12px; overflow:hidden; }
-.r-head { background:linear-gradient(130deg,var(--navy),var(--blue)); color:#fff; padding:18px 22px; text-align:center; }
+.r-head { background:linear-gradient(130deg,var(--navy),var(--blue)); color:#000033; padding:18px 22px; text-align:center; }
 .r-head .org { font-size:10px; letter-spacing:1px; opacity:.65; margin-bottom:4px; }
 .r-head h2  { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; line-height:1.4; }
 .r-head .rno { margin-top:10px; display:inline-block; background:rgba(255,255,255,.15); padding:3px 14px; border-radius:20px; font-size:11px; }
@@ -138,7 +138,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .r-tbl td { padding:9px 12px; border-bottom:1px solid var(--border); }
 .r-tbl td:last-child { text-align:right; font-weight:700; }
 .r-tbl tr:last-child td { border-bottom:none; }
-.r-total { background:var(--navy); color:#fff; border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.r-total { background:var(--navy); color:#000033; border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
 .r-total .tl { font-size:13px; opacity:.8; }
 .r-total .tv { font-size:20px; font-weight:800; font-family:'Noto Serif Thai',serif; }
 .r-foot { text-align:center; padding:10px; background:var(--bg); border-top:1px dashed var(--border); font-size:11px; color:var(--gray); }
@@ -153,7 +153,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 
 /* ── PDF PROGRESS MODAL ── */
 .pdf-modal {
-  background:#fff; border-radius:18px; max-width:460px; width:100%;
+  background:#000033; border-radius:18px; max-width:460px; width:100%;
   box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease; padding:32px;
   text-align:center;
 }
@@ -169,14 +169,14 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .pdf-dept-item .di-name { font-size:13px; font-weight:700; color:var(--navy); flex:1; text-align:left; }
 .pdf-dept-item .di-count { font-size:11px; color:var(--gray); }
 .pdf-dept-item .di-btn {
-  background:#e74c3c; color:#fff; border:none; border-radius:7px;
+  background:#e74c3c; color:#000033; border:none; border-radius:7px;
   padding:5px 12px; font-size:12px; font-weight:700; cursor:pointer;
   font-family:'Sarabun',sans-serif; white-space:nowrap; transition:background .15s;
 }
 .pdf-dept-item .di-btn:hover { background:#c0392b; }
 .pdf-dept-item .di-btn.done { background:var(--green); }
 .pdf-all-btn {
-  width:100%; padding:13px; border-radius:10px; background:var(--navy); color:#fff;
+  width:100%; padding:13px; border-radius:10px; background:var(--navy); color:#000033;
   border:none; font-size:14px; font-weight:800; cursor:pointer;
   font-family:'Sarabun',sans-serif; transition:background .18s; display:flex;
   align-items:center; justify-content:center; gap:8px;
@@ -187,15 +187,15 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .progress-bar { height:6px; background:var(--sky); border-radius:99px; transition:width .3s; width:0%; }
 
 /* LINE MODAL */
-.line-modal { background:#fff; border-radius:18px; max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease; }
+.line-modal { background:#000033; border-radius:18px; max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease; }
 .line-header { background:linear-gradient(130deg,#06C755,#05a847); padding:18px 24px; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:space-between; }
-.line-header h3 { color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
-.line-x { width:32px; height:32px; border-radius:50%; border:none; background:rgba(255,255,255,.25); cursor:pointer; font-size:16px; color:#fff; display:flex; align-items:center; justify-content:center; }
+.line-header h3 { color:#000033; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.line-x { width:32px; height:32px; border-radius:50%; border:none; background:rgba(255,255,255,.25); cursor:pointer; font-size:16px; color:#000033; display:flex; align-items:center; justify-content:center; }
 .line-body { padding:20px 24px; }
 .line-preview { background:#f0f5fa; border:1.5px solid var(--border); border-radius:12px; padding:16px 18px; font-size:13px; line-height:1.8; color:var(--navy); white-space:pre-wrap; font-family:'Sarabun',sans-serif; max-height:380px; overflow-y:auto; margin-bottom:16px; }
-.line-tip { background:#fffbea; border:1px solid #f0d070; border-radius:8px; padding:10px 14px; font-size:12px; color:#7a5800; margin-bottom:16px; display:flex; align-items:flex-start; gap:8px; }
+.line-tip { background:#000033bea; border:1px solid #f0d070; border-radius:8px; padding:10px 14px; font-size:12px; color:#7a5800; margin-bottom:16px; display:flex; align-items:flex-start; gap:8px; }
 .line-actions { display:flex; gap:10px; justify-content:flex-end; }
-.btn-copy-big { background:var(--line-green); color:#fff; border:none; padding:12px 28px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Sarabun',sans-serif; display:flex; align-items:center; gap:7px; transition:all .18s; }
+.btn-copy-big { background:var(--line-green); color:#000033; border:none; padding:12px 28px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Sarabun',sans-serif; display:flex; align-items:center; gap:7px; transition:all .18s; }
 .btn-copy-big:hover { background:#05a847; }
 .btn-copy-big.copied { background:#1b7a4e; }
 
@@ -235,7 +235,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 /* ── SLIP HEAD ── */
 .slip-head {
   background:linear-gradient(130deg,#0d2137,#1a4a7a);
-  color:#fff;
+  color:#000033;
   padding:5px 10px;
   text-align:center;
   flex-shrink:0;             /* ไม่ยุบ */
@@ -296,7 +296,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 /* ยอดรวม */
 .slip-total {
   background:#0d2137;
-  color:#fff;
+  color:#000033;
   border-radius:4px;
   padding:3px 8px;
   display:flex;
@@ -370,16 +370,16 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 /* ── PDF RENDER AREA ── */
 #pdfRenderArea {
   position:fixed; left:-9999px; top:0; z-index:-1;
-  background:#fff; font-family:'Sarabun',sans-serif;
+  background:#000033; font-family:'Sarabun',sans-serif;
 }
 .pdf-page {
-  width:210mm; min-height:297mm; background:#fff;
+  width:210mm; min-height:297mm; background:#000033;
   display:grid; grid-template-columns:1fr 1fr;
   grid-template-rows:repeat(3,88mm);
   gap:3mm; padding:7mm; box-sizing:border-box;
 }
 
-.toast { position:fixed; bottom:28px; right:28px; background:var(--green); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.2); z-index:9999; opacity:0; transform:translateY(10px); transition:all .28s; pointer-events:none; }
+.toast { position:fixed; bottom:28px; right:28px; background:var(--green); color:#000033; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.2); z-index:9999; opacity:0; transform:translateY(10px); transition:all .28s; pointer-events:none; }
 .toast.on { opacity:1; transform:translateY(0); }
 .hidden { display:none !important; }
 </style>
@@ -397,23 +397,23 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 <!-- SIG TOOLBAR -->
 <div style="background:#1a3a5c;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
   <div style="display:flex;align-items:center;gap:10px;">
-    <label style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;color:#fff;font-weight:600;white-space:nowrap;font-family:'Sarabun',sans-serif;">
+    <label style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;color:#000033;font-weight:600;white-space:nowrap;font-family:'Sarabun',sans-serif;">
       🖊️ อัปโหลดลายเซ็น
       <input type="file" id="sigFile" accept="image/*" onchange="loadSig(this)" style="display:none;">
     </label>
     <div id="sigPreviewWrap" style="display:none;position:relative;">
-      <img id="sigPreviewImg" style="height:38px;border-radius:7px;border:2px solid rgba(255,255,255,.35);background:#fff;padding:3px;object-fit:contain;" alt="ลายเซ็น">
-      <button onclick="clearSig()" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#e74c3c;color:#fff;font-size:10px;cursor:pointer;">✕</button>
+      <img id="sigPreviewImg" style="height:38px;border-radius:7px;border:2px solid rgba(255,255,255,.35);background:#000033;padding:3px;object-fit:contain;" alt="ลายเซ็น">
+      <button onclick="clearSig()" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#e74c3c;color:#000033;font-size:10px;cursor:pointer;">✕</button>
     </div>
   </div>
   <div style="width:1px;height:36px;background:rgba(255,255,255,.2);flex-shrink:0;"></div>
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ชื่อผู้รับเงิน</span>
-    <input id="sigNameInput" type="text" placeholder="กรอกชื่อ..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigName=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
+    <input id="sigNameInput" type="text" placeholder="กรอกชื่อ..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#000033;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigName=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
   </div>
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ตำแหน่ง</span>
-    <input id="sigTitleInput" type="text" placeholder="กรอกตำแหน่ง..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigTitle=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
+    <input id="sigTitleInput" type="text" placeholder="กรอกตำแหน่ง..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#000033;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigTitle=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
   </div>
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ขนาดลายเซ็น · <span id="sigSizeVal">65px</span></span>
@@ -510,9 +510,9 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
     <div class="line-body">
       <div class="line-tip">💡 <span>กด <strong>"Copy ข้อความ"</strong> แล้วไปวางใน LINE ได้เลย</span></div>
       <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
-        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามแผนก</button>
-        <button onclick="setSummaryMode('all')"  id="modeAll"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📋 รายชื่อทั้งหมด</button>
-        <button onclick="setSummaryMode('top')"  id="modeTop"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📊 สรุปภาพรวม</button>
+        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#000033;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามแผนก</button>
+        <button onclick="setSummaryMode('all')"  id="modeAll"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#000033;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📋 รายชื่อทั้งหมด</button>
+        <button onclick="setSummaryMode('top')"  id="modeTop"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#000033;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📊 สรุปภาพรวม</button>
       </div>
       <div class="line-preview" id="linePreviewText"></div>
       <div class="line-actions">
@@ -737,7 +737,7 @@ async function renderDeptToPDF(dept){
   const pages = area.querySelectorAll('.pdf-page');
   for(let pi=0; pi<pages.length; pi++){
     const page=pages[pi];
-    const canvas=await html2canvas(page,{scale:2.5, useCORS:true, backgroundColor:'#ffffff', logging:false});
+    const canvas=await html2canvas(page,{scale:2.5, useCORS:true, backgroundColor:'#000033fff', logging:false});
     const imgData=canvas.toDataURL('image/jpeg',0.92);
     if(pi>0) pdf.addPage();
     pdf.addImage(imgData,'JPEG',0,0,210,297);
@@ -798,8 +798,8 @@ function updateModeButtons(){
   ['dept','all','top'].forEach(m=>{
     const btn=document.getElementById('mode'+m.charAt(0).toUpperCase()+m.slice(1));
     if(!btn) return;
-    if(m===summaryMode){btn.style.background='var(--sky)';btn.style.borderColor='var(--sky)';btn.style.color='#fff';}
-    else{btn.style.background='#fff';btn.style.borderColor='var(--border)';btn.style.color='var(--navy)';}
+    if(m===summaryMode){btn.style.background='var(--sky)';btn.style.borderColor='var(--sky)';btn.style.color='#000033';}
+    else{btn.style.background='#000033';btn.style.borderColor='var(--border)';btn.style.color='var(--navy)';}
   });
 }
 function thaiNum(n){ return n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
