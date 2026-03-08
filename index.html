@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบออกใบเสร็จ – สำนักงานชลประทานที่ 9</title>
+<title>ระบบออกใบรับเงิน – สำนักงานชลประทานที่ 9</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -255,7 +255,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 <div class="header">
   <div class="header-icon">💧</div>
   <div>
-    <h1>ระบบออกใบเสร็จค่าสาธารณูปโภค</h1>
+    <h1>ระบบออกใบรับเงินค่าสาธารณูปโภค</h1>
     <p>สำนักงานชลประทานที่ 9 • K.KITJA รองรับทุกๆเดือน</p>
   </div>
 </div>
@@ -344,7 +344,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 <!-- RECEIPT MODAL -->
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="mh"><h3>👁️ Preview ใบเสร็จ</h3><button class="x" onclick="closeModal()">✕</button></div>
+    <div class="mh"><h3>👁️ Preview ใบรับเงิน</h3><button class="x" onclick="closeModal()">✕</button></div>
     <div id="receiptBox"></div>
     <div class="m-act"><button class="btn btn-outline" onclick="printOneModal()">🖨️ พิมพ์ใบนี้</button></div>
   </div>
@@ -512,7 +512,7 @@ function buildReceiptHTML(d){
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">`:'';
   const displayName=sigName||'............................................';
   return `<div class="receipt">
-    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบเสร็จรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
+    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
       <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
       <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
@@ -540,7 +540,7 @@ function buildSlipHTML(d){
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize}px;max-width:85%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
   return `<div class="slip">
-    <div class="slip-head"><div class="s-org">สำนักงานชลประทานที่ 9</div><div class="s-title">ใบเสร็จค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div><div class="s-no">เลขที่ ${rno(d.id)}</div></div>
+    <div class="slip-head"><div class="s-org">สำนักงานชลประทานที่ 9</div><div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div><div class="s-no">เลขที่ ${rno(d.id)}</div></div>
     <div class="slip-body">
       <div class="slip-name">${d.name}</div><div class="slip-dept">${d.dept}</div>
       <table class="slip-rows">${items.map(it=>`<tr><td>${it.l}</td><td>${it.v?it.v.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'}</td></tr>`).join('')}</table>
@@ -607,7 +607,7 @@ async function renderDeptToPDF(dept){
 
   area.innerHTML='';
   const safeName=dept.replace(/[\\/:*?"<>|]/g,'_');
-  pdf.save(`ใบเสร็จ_${safeName}_${monthYear}.pdf`);
+  pdf.save(`ใบรับเงิน_${safeName}_${monthYear}.pdf`);
 }
 
 async function exportOneDept(dept, btnId){
