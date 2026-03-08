@@ -199,7 +199,9 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .btn-copy-big:hover { background:#05a847; }
 .btn-copy-big.copied { background:#1b7a4e; }
 
-/* ── PRINT SLIPS ── */
+/* ════════════════════════════════════════
+   PRINT SLIPS — แก้ไขแล้ว
+   ════════════════════════════════════════ */
 @media print {
   @page { size:A4 portrait; margin:7mm; }
   body>*:not(#printArea) { display:none !important; }
@@ -208,30 +210,162 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   .print-page:last-child { page-break-after:avoid; break-after:avoid; }
 }
 #printArea { display:none; }
-.print-page { width:194mm; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(3,88mm); gap:3mm; page-break-after:always; break-after:page; }
-.slip { border:1px solid #0d2137; border-radius:5px; overflow:hidden; font-family:'Sarabun',sans-serif; display:flex; flex-direction:column; height:88mm; box-sizing:border-box; }
-.slip-head { background:linear-gradient(130deg,#0d2137,#1a4a7a); color:#fff; padding:5px 10px; text-align:center; flex-shrink:0; }
+.print-page {
+  width:194mm;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3,88mm);
+  gap:3mm;
+  page-break-after:always;
+  break-after:page;
+}
+
+/* ── SLIP CONTAINER ── */
+.slip {
+  border:1px solid #0d2137;
+  border-radius:5px;
+  overflow:hidden;           /* ตัดเนื้อหาที่ล้น */
+  font-family:'Sarabun',sans-serif;
+  display:flex;
+  flex-direction:column;
+  height:88mm;
+  box-sizing:border-box;
+}
+
+/* ── SLIP HEAD ── */
+.slip-head {
+  background:linear-gradient(130deg,#0d2137,#1a4a7a);
+  color:#fff;
+  padding:5px 10px;
+  text-align:center;
+  flex-shrink:0;             /* ไม่ยุบ */
+}
 .s-org   { font-size:7pt; opacity:.65; letter-spacing:.5px; }
-.s-title { font-weight:700; font-size:9pt; line-height:1.3; }
-.s-no    { font-size:7pt; opacity:.7; margin-top:2px; }
-.slip-body { padding:5px 9px; flex:1; display:flex; flex-direction:column; min-height:0; }
-.slip-name { font-weight:800; font-size:9.5pt; color:#0d2137; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.slip-dept { font-size:7pt; color:#1a4a7a; font-weight:600; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.slip-rows { width:100%; border-collapse:collapse; font-size:8pt; }
-.slip-rows td { padding:2px 4px; border-bottom:1px solid #d0e4f0; color:#0d2137; }
+.s-title { font-weight:700; font-size:8.5pt; line-height:1.25; }
+.s-no    { font-size:7pt; opacity:.7; margin-top:1px; }
+
+/* ── SLIP BODY ── */
+.slip-body {
+  padding:5px 9px 4px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;              /* สำคัญ: ให้ flex child หด-โตได้ */
+  overflow:hidden;           /* ป้องกันล้น */
+}
+
+/* ชื่อ + แผนก */
+.slip-name {
+  font-weight:800;
+  font-size:9pt;
+  color:#0d2137;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height:1.3;
+  flex-shrink:0;
+}
+.slip-dept {
+  font-size:7pt;
+  color:#1a4a7a;
+  font-weight:600;
+  margin-bottom:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height:1.2;
+  flex-shrink:0;
+}
+
+/* ตารางรายการ */
+.slip-rows {
+  width:100%;
+  border-collapse:collapse;
+  font-size:7.5pt;
+  flex-shrink:0;             /* ไม่ยุบ — มี 4 แถวคงที่ */
+}
+.slip-rows td {
+  padding:1.5px 4px;
+  border-bottom:1px solid #d0e4f0;
+  color:#0d2137;
+  line-height:1.3;
+}
 .slip-rows td:last-child { text-align:right; font-weight:800; }
 .slip-rows tr:last-child td { border-bottom:none; }
-.slip-total { background:#0d2137; color:#fff; border-radius:4px; padding:4px 9px; display:flex; justify-content:space-between; align-items:center; margin-top:4px; flex-shrink:0; }
-.st-l { font-size:7.5pt; opacity:.8; }
-.st-v { font-size:11pt; font-weight:800; }
-.slip-sig { margin-top:auto; padding-top:4px; border-top:1px dashed #ccdde8; flex-shrink:0; }
-.slip-sig-box { text-align:center; }
-.slip-sig-box .ss-label { font-size:7pt; color:#1a4a7a; font-weight:700; margin-bottom:2px; }
-.slip-sig-box .ss-img { display:flex; align-items:center; justify-content:center; margin-bottom:2px; }
-.slip-sig-box .ss-img img { max-width:85%; object-fit:contain; display:block; margin:0 auto; }
-.slip-sig-box .ss-line { border-bottom:1.5px solid #0d2137; margin:2px 8px; }
-.slip-sig-box .ss-name { font-size:8pt; color:#0d2137; font-weight:800; }
-.slip-sig-box .ss-title { font-size:7pt; color:#1a4a7a; font-weight:700; }
+
+/* ยอดรวม */
+.slip-total {
+  background:#0d2137;
+  color:#fff;
+  border-radius:4px;
+  padding:3px 8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:3px;
+  flex-shrink:0;
+}
+.st-l { font-size:7pt; opacity:.8; }
+.st-v { font-size:10pt; font-weight:800; }
+
+/* ── SIGNATURE ── แก้ไขหลัก */
+.slip-sig {
+  margin-top:auto;           /* ดันลงล่างสุด */
+  padding-top:3px;
+  border-top:1px dashed #ccdde8;
+  flex-shrink:0;
+}
+.slip-sig-box {
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0;                     /* ไม่เพิ่ม gap เพราะพื้นที่จำกัด */
+}
+.slip-sig-box .ss-label {
+  font-size:6.5pt;
+  color:#1a4a7a;
+  font-weight:700;
+  margin-bottom:1px;
+  line-height:1.2;
+}
+/* กล่องรูป — จำกัดความสูงชัดเจน ไม่ล้น */
+.slip-sig-box .ss-img {
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  /* ความสูงสูงสุด = sigSize แต่ไม่เกิน 18mm เพื่อให้ชื่อ+ตำแหน่งพอ */
+  max-height:18mm;
+  flex-shrink:0;
+}
+.slip-sig-box .ss-img img {
+  max-height:100%;
+  max-width:82%;
+  object-fit:contain;
+  display:block;
+}
+.slip-sig-box .ss-line {
+  border-bottom:1.5px solid #0d2137;
+  width:calc(100% - 16px);
+  margin:2px 8px;
+  flex-shrink:0;
+}
+.slip-sig-box .ss-name {
+  font-size:7.5pt;
+  color:#0d2137;
+  font-weight:800;
+  line-height:1.3;
+  flex-shrink:0;
+}
+.slip-sig-box .ss-title {
+  font-size:6.5pt;
+  color:#1a4a7a;
+  font-weight:700;
+  line-height:1.2;
+  flex-shrink:0;
+}
 
 /* ── PDF RENDER AREA ── */
 #pdfRenderArea {
@@ -537,44 +671,28 @@ function buildReceiptHTML(d){
 /* ─── SLIP HTML ─── */
 function buildSlipHTML(d){
   const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
-  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize}px;max-width:85%;object-fit:contain;display:block;margin:0 auto;">`:'';
+  // จำกัดความสูงรูปลายเซ็นให้ไม่เกิน 18mm (≈68px ที่ 96dpi) เพื่อให้ชื่อ+ตำแหน่งยังแสดงได้
+  const capSize = Math.min(sigSize, 68);
+  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:82%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
-
-  return `<div class="slip" style="padding: 20px; font-family: sans-serif;">
-    <div class="slip-head" style="text-align: center; margin-bottom: 15px;">
-      <div class="s-org" style="font-weight: bold;">สำนักงานชลประทานที่ 9</div>
-      <div class="s-title" style="margin: 5px 0;">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
+  return `<div class="slip">
+    <div class="slip-head">
+      <div class="s-org">สำนักงานชลประทานที่ 9</div>
+      <div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
       <div class="s-no">เลขที่ ${rno(d.id)}</div>
     </div>
-
     <div class="slip-body">
-      <div style="margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
-        <div class="slip-name"><b>ชื่อ-สกุล:</b> ${d.name}</div>
-        <div class="slip-dept" style="font-size: 0.9em; color: #555;"><b>แผนก:</b> ${d.dept}</div>
-      </div>
-
-      <table class="slip-rows" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-        ${items.map(it=>`
-          <tr>
-            <td style="padding: 5px 0;">${it.l}</td>
-            <td style="text-align: right; padding: 5px 0;">${it.v ? it.v.toLocaleString('th-TH',{minimumFractionDigits:2}) : '-'}</td>
-          </tr>`).join('')}
-      </table>
-
-      <div class="slip-total" style="display: flex; justify-content: space-between; font-weight: bold; border-top: 1px solid #000; padding-top: 10px; margin-bottom: 30px;">
-        <div class="st-l">รวมทั้งสิ้น</div>
-        <div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div>
-      </div>
-
-      <div class="slip-sig" style="margin-top: 40px; text-align: center;">
-        <div class="slip-sig-box" style="display: inline-block; min-width: 200px;">
-          <div class="ss-label" style="margin-bottom: 10px;">ผู้รับเงิน</div>
-          <div class="ss-img" style="height: ${sigSize}px; margin-bottom: 5px;">${sigImg}</div>
-          <div class="ss-line" style="border-bottom: 1px solid #000; margin-bottom: 5px;"></div>
-          <div class="ss-name">(${displayName})</div>
-          ${sigTitle ? `<div class="ss-title" style="font-size: 0.85em; margin-top: 5px;">${sigTitle}</div>` : ''}
-        </div>
-      </div>
+      <div class="slip-name">${d.name}</div>
+      <div class="slip-dept">${d.dept}</div>
+      <table class="slip-rows">${items.map(it=>`<tr><td>${it.l}</td><td>${it.v?it.v.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'}</td></tr>`).join('')}</table>
+      <div class="slip-total"><div class="st-l">รวมทั้งสิ้น</div><div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div></div>
+      <div class="slip-sig"><div class="slip-sig-box">
+        <div class="ss-label">ผู้รับเงิน</div>
+        <div class="ss-img">${sigImg}</div>
+        <div class="ss-line"></div>
+        <div class="ss-name">${displayName}</div>
+        ${sigTitle?`<div class="ss-title">${sigTitle}</div>`:''}
+      </div></div>
     </div>
   </div>`;
 }
@@ -605,8 +723,6 @@ function closePdfModal(e){ if(!e||e.target===document.getElementById('pdfOverlay
 async function renderDeptToPDF(dept){
   const people=ALL.filter(d=>d.dept===dept);
   const area=document.getElementById('pdfRenderArea');
-
-  // Build pages HTML (6 slips per page)
   let pagesHTML='';
   for(let i=0;i<people.length;i+=6){
     const chunk=people.slice(i,i+6);
@@ -616,11 +732,9 @@ async function renderDeptToPDF(dept){
     </div>`;
   }
   area.innerHTML=pagesHTML;
-
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
   const pages = area.querySelectorAll('.pdf-page');
-
   for(let pi=0; pi<pages.length; pi++){
     const page=pages[pi];
     const canvas=await html2canvas(page,{scale:2.5, useCORS:true, backgroundColor:'#ffffff', logging:false});
@@ -628,7 +742,6 @@ async function renderDeptToPDF(dept){
     if(pi>0) pdf.addPage();
     pdf.addImage(imgData,'JPEG',0,0,210,297);
   }
-
   area.innerHTML='';
   const safeName=dept.replace(/[\\/:*?"<>|]/g,'_');
   pdf.save(`ใบรับเงิน_${safeName}_${monthYear}.pdf`);
@@ -656,12 +769,10 @@ async function exportAllDepts(){
   const bar=document.getElementById('pdfBar');
   const barWrap=document.getElementById('pdfBarWrap');
   barWrap.style.display='block';
-
   for(let i=0;i<depts.length;i++){
     const dept=depts[i];
     prog.textContent=`กำลัง Export: ${dept} (${i+1}/${depts.length})`;
     bar.style.width=`${Math.round((i/depts.length)*100)}%`;
-    // mark individual button
     const safeId='btn_'+dept.replace(/[^a-zA-Z0-9]/g,'_');
     const btn=document.getElementById(safeId);
     if(btn){btn.textContent='⏳ ...';btn.disabled=true;}
@@ -671,10 +782,8 @@ async function exportAllDepts(){
     }catch(e){
       if(btn){btn.textContent='❌ ผิดพลาด';btn.disabled=false;}
     }
-    // small delay between files
     await new Promise(r=>setTimeout(r,400));
   }
-
   bar.style.width='100%';
   prog.textContent=`✅ Export ครบทั้ง ${depts.length} แผนกแล้ว!`;
   allBtn.textContent='✅ Export ครบทุกแผนกแล้ว';
