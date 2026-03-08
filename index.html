@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบออกใบรับเงิน – สำนักงานชลประทานที่ 9</title>
+<title>ระบบออกใบรับเงิน – ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -208,6 +208,8 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   #printArea { display:block !important; }
   .print-page { page-break-after:always; break-after:page; }
   .print-page:last-child { page-break-after:avoid; break-after:avoid; }
+  /* บังคับพิมพ์ background และสีทั้งหมด */
+  * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
 }
 #printArea { display:none; }
 .print-page {
@@ -239,10 +241,12 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   padding:5px 10px;
   text-align:center;
   flex-shrink:0;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
 }
-.s-org   { font-size:7pt; color:rgba(255,255,255,.85); letter-spacing:.5px; }
-.s-title { font-weight:800; font-size:8.5pt; line-height:1.25; color:#fff; }
-.s-no    { font-size:7pt; color:rgba(255,255,255,.9); margin-top:1px; background:rgba(255,255,255,.15); display:inline-block; padding:0 8px; border-radius:8px; }
+.s-org   { font-size:7pt; color:#e0eaf5; letter-spacing:.5px; }
+.s-title { font-weight:800; font-size:8.5pt; line-height:1.25; color:#ffffff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
+.s-no    { font-size:7pt; color:#cde0f5; margin-top:1px; background:rgba(255,255,255,.2); display:inline-block; padding:0 8px; border-radius:8px; }
 
 /* ── SLIP BODY ── */
 .slip-body {
@@ -259,22 +263,22 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-name {
   font-weight:800;
   font-size:9pt;
-  color:#111827;             /* เกือบดำ อ่านง่ายสุด */
+  color:#0a0f1a;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  line-height:1.3;
+  line-height:1.6;
   flex-shrink:0;
 }
 .slip-dept {
   font-size:7pt;
-  color:#2563a8;             /* น้ำเงินสด ชัดบนขาว */
+  color:#1045a0;
   font-weight:700;
   margin-bottom:3px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  line-height:1.2;
+  line-height:1.6;
   flex-shrink:0;
 }
 
@@ -286,13 +290,13 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   flex-shrink:0;
 }
 .slip-rows td {
-  padding:1.5px 4px;
-  border-bottom:1px solid #c8dff0;
-  color:#111827;             /* ดำชัด อ่านง่าย */
-  line-height:1.35;
+  padding:2px 4px;
+  border-bottom:1px solid #b0cce0;
+  color:#0a0f1a;
+  line-height:1.6;
 }
-.slip-rows td:first-child { color:#374151; font-weight:500; }   /* ชื่อรายการ */
-.slip-rows td:last-child  { text-align:right; font-weight:800; color:#0d2137; } /* ตัวเลข */
+.slip-rows td:first-child { color:#1a2a3a; font-weight:600; }
+.slip-rows td:last-child  { text-align:right; font-weight:800; color:#0a0f1a; }
 .slip-rows tr:last-child td { border-bottom:none; }
 
 /* ยอดรวม */
@@ -326,7 +330,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 }
 .slip-sig-box .ss-label {
   font-size:6.5pt;
-  color:#2563a8;             /* น้ำเงินสด */
+  color:#1045a0;
   font-weight:700;
   margin-bottom:1px;
   line-height:1.2;
@@ -347,23 +351,23 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   display:block;
 }
 .slip-sig-box .ss-line {
-  border-bottom:1.5px solid #111827;
+  border-bottom:1.5px solid #0a0f1a;
   width:calc(100% - 16px);
   margin:2px 8px;
   flex-shrink:0;
 }
 .slip-sig-box .ss-name {
   font-size:7.5pt;
-  color:#111827;             /* ดำชัด */
+  color:#0a0f1a;
   font-weight:800;
-  line-height:1.3;
+  line-height:1.6;
   flex-shrink:0;
 }
 .slip-sig-box .ss-title {
   font-size:6.5pt;
-  color:#2563a8;             /* น้ำเงินสด */
+  color:#1045a0;
   font-weight:700;
-  line-height:1.2;
+  line-height:1.6;
   flex-shrink:0;
 }
 
@@ -390,7 +394,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   <div class="header-icon">💧</div>
   <div>
     <h1>ระบบออกใบรับเงินค่าสาธารณูปโภค</h1>
-    <p>สำนักงานชลประทานที่ 9 • K.KITJA รองรับทุกๆเดือน</p>
+    <p>ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป  • K.KITJA รองรับทุกๆเดือน</p>
   </div>
 </div>
 
@@ -646,7 +650,7 @@ function buildReceiptHTML(d){
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">`:'';
   const displayName=sigName||'............................................';
   return `<div class="receipt">
-    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
+    <div class="r-head"><div class="org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
       <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
       <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
@@ -677,7 +681,7 @@ function buildSlipHTML(d){
   const displayName=sigName||'.............................';
   return `<div class="slip">
     <div class="slip-head">
-      <div class="s-org">สำนักงานชลประทานที่ 9</div>
+      <div class="s-org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div>
       <div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
       <div class="s-no">เลขที่ ${rno(d.id)}</div>
     </div>
