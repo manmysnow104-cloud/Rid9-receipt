@@ -244,7 +244,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-head {
   background:linear-gradient(130deg,#0d2137,#1a4a7a);
   color:#fff;
-  padding:4px 10px;
+  padding:3px 10px;
   text-align:center;
   flex-shrink:0;
   -webkit-print-color-adjust:exact;
@@ -256,7 +256,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 
 /* ── SLIP BODY ── */
 .slip-body {
-  padding:4px 9px 3px;
+  padding:3px 9px 2px;
   flex:1;
   display:flex;
   flex-direction:column;
@@ -280,7 +280,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   font-size:6.5pt;
   color:#1045a0;
   font-weight:700;
-  margin-bottom:2px;
+  margin-bottom:1px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -292,14 +292,14 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-rows {
   width:100%;
   border-collapse:collapse;
-  font-size:7pt;
+  font-size:6.5pt;
   flex-shrink:0;
 }
 .slip-rows td {
-  padding:1px 4px;
+  padding:0px 4px;
   border-bottom:1px solid #b0cce0;
   color:#0a0f1a;
-  line-height:1.6;
+  line-height:1.55;
 }
 .slip-rows td:first-child { color:#1a2a3a; font-weight:600; }
 .slip-rows td:last-child  { text-align:right; font-weight:800; color:#0a0f1a; }
@@ -314,7 +314,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-top:2px;
+  margin-top:1px;
   flex-shrink:0;
   -webkit-print-color-adjust:exact;
   print-color-adjust:exact;
@@ -325,7 +325,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 /* ── SIGNATURE ── */
 .slip-sig {
   margin-top:auto;
-  padding-top:2px;
+  padding-top:1px;
   border-top:1px dashed #93c5d8;
   flex-shrink:0;
 }
@@ -351,8 +351,8 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   flex-shrink:0;
 }
 .slip-sig-box .ss-img img {
-  max-height:100%;
-  max-width:82%;
+  max-height:15mm;
+  max-width:80%;
   object-fit:contain;
   display:block;
 }
@@ -374,6 +374,13 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   color:#1045a0;
   font-weight:700;
   line-height:1.6;
+  flex-shrink:0;
+}
+.slip-sig-box .ss-date {
+  font-size:6.5pt;
+  color:#1a2a3a;
+  font-weight:600;
+  line-height:1.7;
   flex-shrink:0;
 }
 
@@ -469,6 +476,11 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ตำแหน่ง</span>
     <input id="sigTitleInput" type="text" placeholder="กรอกตำแหน่ง..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigTitle=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
+  </div>
+  <div style="width:1px;height:36px;background:rgba(255,255,255,.2);flex-shrink:0;"></div>
+  <div style="display:flex;flex-direction:column;gap:3px;">
+    <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">วันที่รับเงิน · <span id="sigDateDisplay" style="font-weight:700;color:#f0a500;"></span></span>
+    <input id="sigDateInput" type="date" style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:170px;color-scheme:dark;" onchange="onDateChange(this.value)" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
   </div>
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ขนาดลายเซ็น · <span id="sigSizeVal">65px</span></span>
@@ -672,7 +684,14 @@ let ALL=[], filtered=[], currentPage=1;
 const PER=25;
 let monthYear='';
 let modalPerson=null;
-let sigDataUrl='', sigName='', sigTitle='', sigSize=65;
+let sigDataUrl='', sigName='', sigTitle='', sigDate='', sigSize=65;
+const THAI_MONTHS=['','มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+function onDateChange(val){
+  if(!val){sigDate='';document.getElementById('sigDateDisplay').textContent='';return;}
+  const [y,m,d]=val.split('-');
+  sigDate=`${parseInt(d)} ${THAI_MONTHS[parseInt(m)]} ${parseInt(y)+543}`;
+  document.getElementById('sigDateDisplay').textContent=sigDate;
+}
 let summaryMode='dept';
 
 /* ─── SIG ─── */
@@ -810,8 +829,8 @@ function buildReceiptHTML(d){
 function buildSlipHTML(d){
   const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
   // จำกัดความสูงรูปลายเซ็นให้ไม่เกิน 18mm (≈68px ที่ 96dpi) เพื่อให้ชื่อ+ตำแหน่งยังแสดงได้
-  const capSize = Math.min(sigSize, 68);
-  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:82%;object-fit:contain;display:block;margin:0 auto;">`:'';
+  const capSize=Math.min(sigSize,55);
+  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:80%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
   return `<div class="slip">
     <div class="slip-head">
@@ -830,6 +849,7 @@ function buildSlipHTML(d){
         <div class="ss-line"></div>
         <div class="ss-name">${displayName}</div>
         ${sigTitle?`<div class="ss-title">${sigTitle}</div>`:''}
+        ${sigDate?`<div class="ss-date">${sigDate}</div>`:''}
       </div></div>
     </div>
   </div>`;
