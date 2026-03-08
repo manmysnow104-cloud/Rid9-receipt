@@ -5,19 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ระบบออกใบเสร็จ – สำนักงานชลประทานที่ 9</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Noto+Serif+Thai:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0d2137;
-  --blue: #1a4a7a;
-  --sky: #2e7fc1;
-  --accent: #f0a500;
-  --light: #e8f3fb;
-  --white: #fff;
-  --gray: #6b7c8d;
-  --border: #ccdde8;
-  --bg: #f0f5fa;
-  --green: #1b7a4e;
+  --navy: #0d2137; --blue: #1a4a7a; --sky: #2e7fc1;
+  --accent: #f0a500; --light: #e8f3fb; --white: #fff;
+  --gray: #6b7c8d; --border: #ccdde8; --bg: #f0f5fa;
+  --green: #1b7a4e; --line-green: #06C755;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
@@ -27,114 +23,108 @@ body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--n
   padding: 22px 36px; display: flex; align-items: center; gap: 16px;
   box-shadow: 0 4px 20px rgba(13,33,55,.35);
 }
-.header-icon { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
-.header h1 { font-family: 'Noto Serif Thai', serif; font-size: 20px; color: #fff; line-height: 1.35; }
-.header p  { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 2px; }
+.header-icon { width:48px; height:48px; background:var(--accent); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.header h1 { font-family:'Noto Serif Thai',serif; font-size:20px; color:#fff; line-height:1.35; }
+.header p  { font-size:12px; color:rgba(255,255,255,.6); margin-top:2px; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
 
 .upload-zone {
-  border: 2.5px dashed var(--border); border-radius: 18px; background: var(--white);
-  padding: 60px 32px; text-align: center; cursor: pointer; transition: all .22s;
+  border:2.5px dashed var(--border); border-radius:18px; background:var(--white);
+  padding:60px 32px; text-align:center; cursor:pointer; transition:all .22s;
 }
-.upload-zone:hover { border-color: var(--sky); box-shadow: 0 8px 28px rgba(46,127,193,.15); transform: translateY(-2px); }
-.upload-zone .icon { font-size: 52px; margin-bottom: 14px; }
-.upload-zone h2  { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
-.upload-zone p   { font-size: 13px; color: var(--gray); }
-.upload-zone input { display: none; }
+.upload-zone:hover { border-color:var(--sky); box-shadow:0 8px 28px rgba(46,127,193,.15); transform:translateY(-2px); }
+.upload-zone .icon { font-size:52px; margin-bottom:14px; }
+.upload-zone h2  { font-size:19px; font-weight:700; margin-bottom:6px; }
+.upload-zone p   { font-size:13px; color:var(--gray); }
+.upload-zone input { display:none; }
 .btn-up {
-  margin-top: 18px; display: inline-block; background: var(--sky); color: #fff;
-  padding: 11px 30px; border-radius: 9px; font-size: 14px; font-weight: 700;
-  cursor: pointer; border: none; font-family: 'Sarabun', sans-serif; transition: background .2s;
+  margin-top:18px; display:inline-block; background:var(--sky); color:#fff;
+  padding:11px 30px; border-radius:9px; font-size:14px; font-weight:700;
+  cursor:pointer; border:none; font-family:'Sarabun',sans-serif; transition:background .2s;
 }
-.btn-up:hover { background: var(--blue); }
+.btn-up:hover { background:var(--blue); }
 
-.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 22px; }
-.stat { background: var(--white); border-radius: 12px; padding: 18px 22px; border: 1px solid var(--border); }
-.stat .lb { font-size: 11px; color: var(--gray); font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
-.stat .vl { font-size: 26px; font-weight: 800; color: var(--navy); margin-top: 3px; }
-.stat .sl { font-size: 12px; color: var(--sky); margin-top: 1px; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+.stat { background:var(--white); border-radius:12px; padding:18px 22px; border:1px solid var(--border); }
+.stat .lb { font-size:11px; color:var(--gray); font-weight:600; letter-spacing:.5px; text-transform:uppercase; }
+.stat .vl { font-size:26px; font-weight:800; color:var(--navy); margin-top:3px; }
+.stat .sl { font-size:12px; color:var(--sky); margin-top:1px; }
 
-.ctrls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-.search-wrap { flex: 1; min-width: 220px; position: relative; }
-.search-wrap span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 17px; }
+.ctrls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+.search-wrap { flex:1; min-width:220px; position:relative; }
+.search-wrap span { position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:17px; }
 .search-wrap input {
-  width: 100%; padding: 10px 14px 10px 42px; border: 1.5px solid var(--border);
-  border-radius: 9px; font-size: 14px; font-family: 'Sarabun', sans-serif;
-  background: var(--white); outline: none; color: var(--navy); transition: border .2s;
+  width:100%; padding:10px 14px 10px 42px; border:1.5px solid var(--border);
+  border-radius:9px; font-size:14px; font-family:'Sarabun',sans-serif;
+  background:var(--white); outline:none; color:var(--navy); transition:border .2s;
 }
-.search-wrap input:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(46,127,193,.1); }
+.search-wrap input:focus { border-color:var(--sky); box-shadow:0 0 0 3px rgba(46,127,193,.1); }
 select.dept {
-  padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 9px;
-  font-size: 13px; font-family: 'Sarabun', sans-serif; background: var(--white);
-  color: var(--navy); cursor: pointer; outline: none; min-width: 190px;
+  padding:10px 14px; border:1.5px solid var(--border); border-radius:9px;
+  font-size:13px; font-family:'Sarabun',sans-serif; background:var(--white);
+  color:var(--navy); cursor:pointer; outline:none; min-width:190px;
 }
 .btn {
-  padding: 10px 18px; border-radius: 9px; font-size: 13px; font-weight: 700;
-  cursor: pointer; border: none; font-family: 'Sarabun', sans-serif;
-  transition: all .18s; display: flex; align-items: center; gap: 5px; white-space: nowrap;
+  padding:10px 18px; border-radius:9px; font-size:13px; font-weight:700;
+  cursor:pointer; border:none; font-family:'Sarabun',sans-serif;
+  transition:all .18s; display:flex; align-items:center; gap:5px; white-space:nowrap;
 }
-.btn-primary { background: var(--navy); color: #fff; }
-.btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
-.btn-accent  { background: var(--accent); color: var(--navy); }
-.btn-accent:hover  { background: #d99200; transform: translateY(-1px); }
-.btn-outline { background: #fff; color: var(--navy); border: 1.5px solid var(--border); }
-.btn-outline:hover { border-color: var(--sky); color: var(--sky); }
+.btn-primary { background:var(--navy); color:#fff; }
+.btn-primary:hover { background:var(--blue); transform:translateY(-1px); }
+.btn-accent  { background:var(--accent); color:var(--navy); }
+.btn-accent:hover  { background:#d99200; transform:translateY(-1px); }
+.btn-outline { background:#fff; color:var(--navy); border:1.5px solid var(--border); }
+.btn-outline:hover { border-color:var(--sky); color:var(--sky); }
+.btn-line { background:var(--line-green); color:#fff; }
+.btn-line:hover { background:#05a847; transform:translateY(-1px); }
+.btn-pdf  { background:#e74c3c; color:#fff; }
+.btn-pdf:hover  { background:#c0392b; transform:translateY(-1px); }
 
-.tbl-wrap { background: var(--white); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 2px 10px rgba(13,33,55,.06); }
-table { width: 100%; border-collapse: collapse; }
-thead tr { background: var(--navy); }
-thead th { padding: 13px 14px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.8); text-align: left; }
-tbody tr { border-bottom: 1px solid var(--border); transition: background .13s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: var(--light); }
-tbody td { padding: 11px 14px; font-size: 13px; vertical-align: middle; }
-.name { font-weight: 700; color: var(--navy); }
-.dept-tag { font-size: 11px; color: var(--sky); margin-top: 2px; }
-.mono { font-weight: 700; font-size: 14px; }
-.zero { color: #bbb; }
-.act { display: flex; gap: 6px; justify-content: center; }
-.btn-sm {
-  padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;
-  cursor: pointer; border: none; font-family: 'Sarabun', sans-serif; transition: all .14s;
-}
-.btn-prev { background: var(--light); color: var(--blue); }
-.btn-prev:hover { background: var(--sky); color: #fff; }
-.btn-dl   { background: #edf7f1; color: #1b7a4e; }
-.btn-dl:hover   { background: #1b7a4e; color: #fff; }
-tfoot tr { background: #e8f3fb; border-top: 2px solid var(--sky); }
-tfoot td { padding: 11px 14px; font-size: 13px; font-weight: 800; color: var(--navy); }
-tfoot td.sum-val { font-size: 14px; color: var(--blue); }
-tfoot td.sum-total { font-size: 15px; color: var(--navy); }
-tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; letter-spacing:.3px; }
-.no-data { padding: 50px; text-align: center; color: var(--gray); font-size: 14px; }
+.tbl-wrap { background:var(--white); border-radius:14px; border:1px solid var(--border); overflow:hidden; box-shadow:0 2px 10px rgba(13,33,55,.06); }
+table { width:100%; border-collapse:collapse; }
+thead tr { background:var(--navy); }
+thead th { padding:13px 14px; font-size:12px; font-weight:600; color:rgba(255,255,255,.8); text-align:left; }
+tbody tr { border-bottom:1px solid var(--border); transition:background .13s; }
+tbody tr:last-child { border-bottom:none; }
+tbody tr:hover { background:var(--light); }
+tbody td { padding:11px 14px; font-size:13px; vertical-align:middle; }
+.name { font-weight:700; color:var(--navy); }
+.dept-tag { font-size:11px; color:var(--sky); margin-top:2px; }
+.mono { font-weight:700; font-size:14px; }
+.zero { color:#bbb; }
+.act { display:flex; gap:6px; justify-content:center; }
+.btn-sm { padding:5px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; border:none; font-family:'Sarabun',sans-serif; transition:all .14s; }
+.btn-prev { background:var(--light); color:var(--blue); }
+.btn-prev:hover { background:var(--sky); color:#fff; }
+.btn-dl   { background:#edf7f1; color:#1b7a4e; }
+.btn-dl:hover   { background:#1b7a4e; color:#fff; }
+tfoot tr { background:#e8f3fb; border-top:2px solid var(--sky); }
+tfoot td { padding:11px 14px; font-size:13px; font-weight:800; color:var(--navy); }
+tfoot td.sum-val { font-size:14px; color:var(--blue); }
+tfoot td.sum-total { font-size:15px; color:var(--navy); }
+tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-spacing:.3px; }
+.no-data { padding:50px; text-align:center; color:var(--gray); font-size:14px; }
 
-.pager { display: flex; gap: 5px; align-items: center; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
-.pg { width: 34px; height: 34px; border-radius: 7px; border: 1.5px solid var(--border); background: #fff; cursor: pointer; font-size: 13px; font-family: 'Sarabun', sans-serif; font-weight: 700; color: var(--navy); display: flex; align-items: center; justify-content: center; transition: all .14s; }
-.pg:hover, .pg.on { background: var(--navy); color: #fff; border-color: var(--navy); }
-.pg-info { font-size: 12px; color: var(--gray); padding: 0 6px; }
+.pager { display:flex; gap:5px; align-items:center; justify-content:center; margin-top:18px; flex-wrap:wrap; }
+.pg { width:34px; height:34px; border-radius:7px; border:1.5px solid var(--border); background:#fff; cursor:pointer; font-size:13px; font-family:'Sarabun',sans-serif; font-weight:700; color:var(--navy); display:flex; align-items:center; justify-content:center; transition:all .14s; }
+.pg:hover, .pg.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.pg-info { font-size:12px; color:var(--gray); padding:0 6px; }
 
-.overlay {
-  display: none; position: fixed; inset: 0; background: rgba(13,33,55,.6);
-  z-index: 1000; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(4px);
-}
-.overlay.on { display: flex; }
-.modal {
-  background: #fff; border-radius: 18px; max-width: 560px; width: 100%;
-  max-height: 92vh; overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(13,33,55,.25); animation: up .22s ease;
-}
-@keyframes up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-.mh { padding: 20px 24px 0; display: flex; align-items: center; justify-content: space-between; }
-.mh h3 { font-size: 16px; font-weight: 700; }
-.x { width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--bg); cursor: pointer; font-size: 17px; display: flex; align-items: center; justify-content: center; transition: background .14s; }
-.x:hover { background: var(--border); }
-.m-act { padding: 0 24px 22px; display: flex; gap: 8px; justify-content: flex-end; }
+/* ── MODAL ── */
+.overlay { display:none; position:fixed; inset:0; background:rgba(13,33,55,.6); z-index:1000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+.overlay.on { display:flex; }
+.modal { background:#fff; border-radius:18px; max-width:560px; width:100%; max-height:92vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.25); animation:up .22s ease; }
+@keyframes up { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+.mh { padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+.mh h3 { font-size:16px; font-weight:700; }
+.x { width:34px; height:34px; border-radius:50%; border:none; background:var(--bg); cursor:pointer; font-size:17px; display:flex; align-items:center; justify-content:center; }
+.x:hover { background:var(--border); }
+.m-act { padding:0 24px 22px; display:flex; gap:8px; justify-content:flex-end; }
 
-/* Receipt in modal */
-.receipt { margin: 16px 24px 16px; border: 1.5px solid var(--navy); border-radius: 12px; overflow: hidden; }
-.r-head { background: linear-gradient(130deg,var(--navy),var(--blue)); color:#fff; padding:18px 22px; text-align:center; }
+/* Receipt */
+.receipt { margin:16px 24px; border:1.5px solid var(--navy); border-radius:12px; overflow:hidden; }
+.r-head { background:linear-gradient(130deg,var(--navy),var(--blue)); color:#fff; padding:18px 22px; text-align:center; }
 .r-head .org { font-size:10px; letter-spacing:1px; opacity:.65; margin-bottom:4px; }
 .r-head h2  { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; line-height:1.4; }
 .r-head .rno { margin-top:10px; display:inline-block; background:rgba(255,255,255,.15); padding:3px 14px; border-radius:20px; font-size:11px; }
@@ -152,64 +142,75 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
 .r-total .tl { font-size:13px; opacity:.8; }
 .r-total .tv { font-size:20px; font-weight:800; font-family:'Noto Serif Thai',serif; }
 .r-foot { text-align:center; padding:10px; background:var(--bg); border-top:1px dashed var(--border); font-size:11px; color:var(--gray); }
-
-/* Signature section */
-.sig-section {
-  display:grid; grid-template-columns:1fr 1fr; gap:12px;
-  margin:0 20px 16px; padding-top:12px; border-top:1px dashed var(--border);
-}
+.sig-section { display:grid; grid-template-columns:1fr; gap:12px; margin:0 20px 16px; padding-top:12px; border-top:1px dashed var(--border); }
 .sig-box { text-align:center; }
 .sig-box .sig-label { font-size:11px; color:var(--blue); font-weight:700; text-transform:uppercase; letter-spacing:.4px; margin-bottom:8px; }
 .sig-box .sig-img-wrap { display:flex; align-items:center; justify-content:center; margin-bottom:4px; overflow:hidden; }
 .sig-box .sig-img-wrap img { max-width:100%; object-fit:contain; }
 .sig-box .sig-line { border-bottom:2px solid var(--navy); margin:0 8px 6px; }
-.sig-box .sig-name { font-size:13px; color:var(--navy); font-weight:800; min-height:18px; }
+.sig-box .sig-name { font-size:13px; color:var(--navy); font-weight:800; }
 .sig-box .sig-role { font-size:11px; color:var(--blue); font-weight:600; margin-top:2px; }
 
-/* Slip signature */
-.slip-sig { margin-top:auto; padding-top:4px; border-top:1px dashed #ccdde8; flex-shrink:0; }
-.slip-sig-box { text-align:center; }
-.slip-sig-box .ss-label { font-size:7pt; color:#1a4a7a; font-weight:700; margin-bottom:2px; letter-spacing:.3px; }
-.slip-sig-box .ss-img { display:flex; align-items:center; justify-content:center; margin-bottom:2px; }
-.slip-sig-box .ss-img img { max-width:85%; object-fit:contain; display:block; margin:0 auto; }
-.slip-sig-box .ss-line { border-bottom:1.5px solid #0d2137; margin:2px 8px 2px; }
-.slip-sig-box .ss-name { font-size:8pt; color:#0d2137; font-weight:800; }
-.slip-sig-box .ss-title { font-size:7pt; color:#1a4a7a; font-weight:700; }
+/* ── PDF PROGRESS MODAL ── */
+.pdf-modal {
+  background:#fff; border-radius:18px; max-width:460px; width:100%;
+  box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease; padding:32px;
+  text-align:center;
+}
+.pdf-modal h3 { font-size:17px; font-weight:800; color:var(--navy); margin-bottom:6px; }
+.pdf-modal p  { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.pdf-dept-list { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; max-height:320px; overflow-y:auto; }
+.pdf-dept-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; border-radius:10px; border:1.5px solid var(--border);
+  background:#fafcfe; cursor:pointer; transition:all .15s; gap:10px;
+}
+.pdf-dept-item:hover { border-color:var(--sky); background:var(--light); }
+.pdf-dept-item .di-name { font-size:13px; font-weight:700; color:var(--navy); flex:1; text-align:left; }
+.pdf-dept-item .di-count { font-size:11px; color:var(--gray); }
+.pdf-dept-item .di-btn {
+  background:#e74c3c; color:#fff; border:none; border-radius:7px;
+  padding:5px 12px; font-size:12px; font-weight:700; cursor:pointer;
+  font-family:'Sarabun',sans-serif; white-space:nowrap; transition:background .15s;
+}
+.pdf-dept-item .di-btn:hover { background:#c0392b; }
+.pdf-dept-item .di-btn.done { background:var(--green); }
+.pdf-all-btn {
+  width:100%; padding:13px; border-radius:10px; background:var(--navy); color:#fff;
+  border:none; font-size:14px; font-weight:800; cursor:pointer;
+  font-family:'Sarabun',sans-serif; transition:background .18s; display:flex;
+  align-items:center; justify-content:center; gap:8px;
+}
+.pdf-all-btn:hover { background:var(--blue); }
+.pdf-progress { margin-top:14px; font-size:12px; color:var(--gray); min-height:18px; }
+.progress-bar-wrap { width:100%; background:#e0e9f0; border-radius:99px; height:6px; margin-top:8px; overflow:hidden; }
+.progress-bar { height:6px; background:var(--sky); border-radius:99px; transition:width .3s; width:0%; }
 
-/* ── PRINT ── */
+/* LINE MODAL */
+.line-modal { background:#fff; border-radius:18px; max-width:520px; width:100%; max-height:88vh; overflow-y:auto; box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease; }
+.line-header { background:linear-gradient(130deg,#06C755,#05a847); padding:18px 24px; border-radius:18px 18px 0 0; display:flex; align-items:center; justify-content:space-between; }
+.line-header h3 { color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.line-x { width:32px; height:32px; border-radius:50%; border:none; background:rgba(255,255,255,.25); cursor:pointer; font-size:16px; color:#fff; display:flex; align-items:center; justify-content:center; }
+.line-body { padding:20px 24px; }
+.line-preview { background:#f0f5fa; border:1.5px solid var(--border); border-radius:12px; padding:16px 18px; font-size:13px; line-height:1.8; color:var(--navy); white-space:pre-wrap; font-family:'Sarabun',sans-serif; max-height:380px; overflow-y:auto; margin-bottom:16px; }
+.line-tip { background:#fffbea; border:1px solid #f0d070; border-radius:8px; padding:10px 14px; font-size:12px; color:#7a5800; margin-bottom:16px; display:flex; align-items:flex-start; gap:8px; }
+.line-actions { display:flex; gap:10px; justify-content:flex-end; }
+.btn-copy-big { background:var(--line-green); color:#fff; border:none; padding:12px 28px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Sarabun',sans-serif; display:flex; align-items:center; gap:7px; transition:all .18s; }
+.btn-copy-big:hover { background:#05a847; }
+.btn-copy-big.copied { background:#1b7a4e; }
+
+/* ── PRINT SLIPS ── */
 @media print {
-  @page { size: A4 portrait; margin: 7mm; }
-  body > *:not(#printArea) { display: none !important; }
-  #printArea { display: block !important; }
-  .print-page { page-break-after: always; break-after: page; }
-  .print-page:last-child { page-break-after: avoid; break-after: avoid; }
+  @page { size:A4 portrait; margin:7mm; }
+  body>*:not(#printArea) { display:none !important; }
+  #printArea { display:block !important; }
+  .print-page { page-break-after:always; break-after:page; }
+  .print-page:last-child { page-break-after:avoid; break-after:avoid; }
 }
-#printArea { display: none; }
-
-.print-page {
-  width: 194mm;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, 88mm);
-  gap: 3mm;
-  page-break-after: always;
-  break-after: page;
-}
-
-.slip {
-  border: 1px solid #0d2137;
-  border-radius: 5px;
-  overflow: hidden;
-  font-family: 'Sarabun', sans-serif;
-  display: flex;
-  flex-direction: column;
-  height: 88mm;
-  box-sizing: border-box;
-}
-.slip-head {
-  background: linear-gradient(130deg,#0d2137,#1a4a7a);
-  color:#fff; padding:5px 10px; text-align:center; flex-shrink:0;
-}
+#printArea { display:none; }
+.print-page { width:194mm; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(3,88mm); gap:3mm; page-break-after:always; break-after:page; }
+.slip { border:1px solid #0d2137; border-radius:5px; overflow:hidden; font-family:'Sarabun',sans-serif; display:flex; flex-direction:column; height:88mm; box-sizing:border-box; }
+.slip-head { background:linear-gradient(130deg,#0d2137,#1a4a7a); color:#fff; padding:5px 10px; text-align:center; flex-shrink:0; }
 .s-org   { font-size:7pt; opacity:.65; letter-spacing:.5px; }
 .s-title { font-weight:700; font-size:9pt; line-height:1.3; }
 .s-no    { font-size:7pt; opacity:.7; margin-top:2px; }
@@ -218,23 +219,33 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
 .slip-dept { font-size:7pt; color:#1a4a7a; font-weight:600; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .slip-rows { width:100%; border-collapse:collapse; font-size:8pt; }
 .slip-rows td { padding:2px 4px; border-bottom:1px solid #d0e4f0; color:#0d2137; }
-.slip-rows td:last-child { text-align:right; font-weight:800; color:#0d2137; }
+.slip-rows td:last-child { text-align:right; font-weight:800; }
 .slip-rows tr:last-child td { border-bottom:none; }
-.slip-total {
-  background:#0d2137; color:#fff; border-radius:4px;
-  padding:4px 9px; display:flex; justify-content:space-between; align-items:center;
-  margin-top:4px; flex-shrink:0;
-}
+.slip-total { background:#0d2137; color:#fff; border-radius:4px; padding:4px 9px; display:flex; justify-content:space-between; align-items:center; margin-top:4px; flex-shrink:0; }
 .st-l { font-size:7.5pt; opacity:.8; }
 .st-v { font-size:11pt; font-weight:800; }
+.slip-sig { margin-top:auto; padding-top:4px; border-top:1px dashed #ccdde8; flex-shrink:0; }
+.slip-sig-box { text-align:center; }
+.slip-sig-box .ss-label { font-size:7pt; color:#1a4a7a; font-weight:700; margin-bottom:2px; }
+.slip-sig-box .ss-img { display:flex; align-items:center; justify-content:center; margin-bottom:2px; }
+.slip-sig-box .ss-img img { max-width:85%; object-fit:contain; display:block; margin:0 auto; }
+.slip-sig-box .ss-line { border-bottom:1.5px solid #0d2137; margin:2px 8px; }
+.slip-sig-box .ss-name { font-size:8pt; color:#0d2137; font-weight:800; }
+.slip-sig-box .ss-title { font-size:7pt; color:#1a4a7a; font-weight:700; }
 
-.toast {
-  position:fixed; bottom:28px; right:28px;
-  background:var(--green); color:#fff; padding:12px 20px;
-  border-radius:10px; font-size:13px; font-weight:700;
-  box-shadow:0 6px 20px rgba(0,0,0,.2); z-index:9999;
-  opacity:0; transform:translateY(10px); transition:all .28s; pointer-events:none;
+/* ── PDF RENDER AREA ── */
+#pdfRenderArea {
+  position:fixed; left:-9999px; top:0; z-index:-1;
+  background:#fff; font-family:'Sarabun',sans-serif;
 }
+.pdf-page {
+  width:210mm; min-height:297mm; background:#fff;
+  display:grid; grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3,88mm);
+  gap:3mm; padding:7mm; box-sizing:border-box;
+}
+
+.toast { position:fixed; bottom:28px; right:28px; background:var(--green); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.2); z-index:9999; opacity:0; transform:translateY(10px); transition:all .28s; pointer-events:none; }
 .toast.on { opacity:1; transform:translateY(0); }
 .hidden { display:none !important; }
 </style>
@@ -251,68 +262,44 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
 
 <!-- SIG TOOLBAR -->
 <div style="background:#1a3a5c;border-bottom:1px solid rgba(255,255,255,.1);padding:12px 36px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-
-  <!-- Upload + preview -->
   <div style="display:flex;align-items:center;gap:10px;">
-    <label style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;color:#fff;font-weight:600;white-space:nowrap;transition:background .2s;font-family:'Sarabun',sans-serif;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">
+    <label style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;color:#fff;font-weight:600;white-space:nowrap;font-family:'Sarabun',sans-serif;">
       🖊️ อัปโหลดลายเซ็น
       <input type="file" id="sigFile" accept="image/*" onchange="loadSig(this)" style="display:none;">
     </label>
     <div id="sigPreviewWrap" style="display:none;position:relative;">
       <img id="sigPreviewImg" style="height:38px;border-radius:7px;border:2px solid rgba(255,255,255,.35);background:#fff;padding:3px;object-fit:contain;" alt="ลายเซ็น">
-      <button onclick="clearSig()" title="ลบลายเซ็น" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#e74c3c;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+      <button onclick="clearSig()" style="position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;border:none;background:#e74c3c;color:#fff;font-size:10px;cursor:pointer;">✕</button>
     </div>
   </div>
-
   <div style="width:1px;height:36px;background:rgba(255,255,255,.2);flex-shrink:0;"></div>
-
-  <!-- ชื่อ -->
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ชื่อผู้รับเงิน</span>
-    <input id="sigNameInput" type="text" placeholder="กรอกชื่อ..." value=""
-      style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;"
-      oninput="sigName=this.value"
-      onfocus="this.style.borderColor='rgba(255,255,255,.7)'"
-      onblur="this.style.borderColor='rgba(255,255,255,.3)'"
-    >
+    <input id="sigNameInput" type="text" placeholder="กรอกชื่อ..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigName=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
   </div>
-
-  <!-- ตำแหน่ง -->
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ตำแหน่ง</span>
-    <input id="sigTitleInput" type="text" placeholder="กรอกตำแหน่ง..." value=""
-      style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;"
-      oninput="sigTitle=this.value"
-      onfocus="this.style.borderColor='rgba(255,255,255,.7)'"
-      onblur="this.style.borderColor='rgba(255,255,255,.3)'"
-    >
+    <input id="sigTitleInput" type="text" placeholder="กรอกตำแหน่ง..." style="padding:7px 12px;border-radius:7px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-family:'Sarabun',sans-serif;outline:none;width:160px;" oninput="sigTitle=this.value" onfocus="this.style.borderColor='rgba(255,255,255,.7)'" onblur="this.style.borderColor='rgba(255,255,255,.3)'">
   </div>
-
-  <!-- Slider -->
   <div style="display:flex;flex-direction:column;gap:3px;">
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ขนาดลายเซ็น · <span id="sigSizeVal">65px</span></span>
-    <input id="sigSizeSlider" type="range" min="20" max="80" value="65"
-      oninput="sigSize=+this.value;document.getElementById('sigSizeVal').textContent=this.value+'px'"
-      style="width:120px;accent-color:#f0a500;cursor:pointer;margin-top:4px;">
+    <input id="sigSizeSlider" type="range" min="20" max="80" value="65" oninput="sigSize=+this.value;document.getElementById('sigSizeVal').textContent=this.value+'px'" style="width:120px;accent-color:#f0a500;cursor:pointer;margin-top:4px;">
   </div>
-
 </div>
 
 <div class="wrap">
-
   <div id="uploadSec">
     <div class="upload-zone" id="dropZone" onclick="document.getElementById('fi').click()">
       <div class="icon">📊</div>
       <h2>นำเข้าไฟล์ Excel</h2>
       <p>ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์</p>
-      <p style="margin-top:4px;font-size:12px;color:#FF0000;">.xlsx / .xls รองรับรูปแบบ ตัวอย่าง มกราคม 2568 </p>
+      <p style="margin-top:4px;font-size:12px;color:#FF0000;">.xlsx / .xls รองรับรูปแบบ ตัวอย่าง มกราคม 2568</p>
       <button class="btn-up" onclick="event.stopPropagation();document.getElementById('fi').click()">📂 เลือกไฟล์ Excel</button>
       <input type="file" id="fi" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
     </div>
   </div>
 
   <div id="appSec" class="hidden">
-
     <div class="stats">
       <div class="stat"><div class="lb">ผู้อยู่อาศัย</div><div class="vl" id="sTotal">0</div><div class="sl">คน</div></div>
       <div class="stat"><div class="lb">แผนก</div><div class="vl" id="sDepts">0</div><div class="sl">หน่วยงาน</div></div>
@@ -328,8 +315,10 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
         <option value="">ทุกแผนก</option>
       </select>
       <button class="btn btn-outline" onclick="resetFile()">🔄 เปลี่ยนไฟล์</button>
+      <button class="btn btn-line"    onclick="openLineSummary()">💬 Copy สรุป → LINE</button>
+      <button class="btn btn-pdf"     onclick="openPdfModal()">📥 Export PDF แยกแผนก</button>
       <button class="btn btn-primary" onclick="printAll()">🖨️ พิมพ์ทั้งหมด</button>
-      <button class="btn btn-accent"  onclick="printFiltered()">🖨️ พิมพ์ที่กรอง/เลือก</button>
+      <button class="btn btn-accent"  onclick="printFiltered()">🖨️ พิมพ์ที่กรอง</button>
     </div>
 
     <div class="tbl-wrap">
@@ -338,10 +327,7 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
           <tr>
             <th style="width:44px">ที่</th>
             <th>ชื่อ - สกุล / แผนก</th>
-            <th>ค่าน้ำ</th>
-            <th>ค่าไฟ</th>
-            <th>ค่าขยะ</th>
-            <th>สวัสดิการ</th>
+            <th>ค่าน้ำ</th><th>ค่าไฟ</th><th>ค่าขยะ</th><th>สวัสดิการ</th>
             <th>รวม (บาท)</th>
             <th style="width:130px;text-align:center">จัดการ</th>
           </tr>
@@ -352,23 +338,59 @@ tfoot td.sum-label { font-size: 12px; color: var(--gray); font-weight: 700; lett
       <div id="noData" class="no-data hidden">ไม่พบข้อมูลที่ค้นหา</div>
     </div>
     <div class="pager" id="pager"></div>
-
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- RECEIPT MODAL -->
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="mh">
-      <h3>👁️ Preview ใบเสร็จ</h3>
-      <button class="x" onclick="closeModal()">✕</button>
-    </div>
+    <div class="mh"><h3>👁️ Preview ใบเสร็จ</h3><button class="x" onclick="closeModal()">✕</button></div>
     <div id="receiptBox"></div>
-    <div class="m-act">
-      <button class="btn btn-outline" onclick="printOneModal()">🖨️ พิมพ์ใบนี้</button>
+    <div class="m-act"><button class="btn btn-outline" onclick="printOneModal()">🖨️ พิมพ์ใบนี้</button></div>
+  </div>
+</div>
+
+<!-- PDF DEPT MODAL -->
+<div class="overlay" id="pdfOverlay" onclick="closePdfModal(event)">
+  <div class="pdf-modal" onclick="event.stopPropagation()">
+    <h3>📥 Export PDF แยกตามแผนก</h3>
+    <p>เลือกแผนกที่ต้องการ หรือ Export ทั้งหมดพร้อมกัน</p>
+    <div class="pdf-dept-list" id="pdfDeptList"></div>
+    <button class="pdf-all-btn" id="pdfAllBtn" onclick="exportAllDepts()">
+      📥 Export ทุกแผนกพร้อมกัน
+    </button>
+    <div class="pdf-progress" id="pdfProgress"></div>
+    <div class="progress-bar-wrap" id="pdfBarWrap" style="display:none">
+      <div class="progress-bar" id="pdfBar"></div>
     </div>
   </div>
 </div>
+
+<!-- LINE COPY MODAL -->
+<div class="overlay" id="lineOverlay" onclick="closeLineModal(event)">
+  <div class="line-modal" onclick="event.stopPropagation()">
+    <div class="line-header">
+      <h3>💬 สรุปยอดค่าสาธารณูปโภค</h3>
+      <button class="line-x" onclick="closeLineModal()">✕</button>
+    </div>
+    <div class="line-body">
+      <div class="line-tip">💡 <span>กด <strong>"Copy ข้อความ"</strong> แล้วไปวางใน LINE ได้เลย</span></div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามแผนก</button>
+        <button onclick="setSummaryMode('all')"  id="modeAll"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📋 รายชื่อทั้งหมด</button>
+        <button onclick="setSummaryMode('top')"  id="modeTop"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📊 สรุปภาพรวม</button>
+      </div>
+      <div class="line-preview" id="linePreviewText"></div>
+      <div class="line-actions">
+        <button class="btn btn-outline" onclick="closeLineModal()">ปิด</button>
+        <button class="btn-copy-big" id="copyBtn" onclick="doCopy()">📋 Copy ข้อความ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF RENDER (hidden) -->
+<div id="pdfRenderArea"></div>
 
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
@@ -378,65 +400,40 @@ let ALL=[], filtered=[], currentPage=1;
 const PER=25;
 let monthYear='';
 let modalPerson=null;
-let sigDataUrl = '';
-let sigName = '';
-let sigTitle = '';
-let sigSize = 65;
+let sigDataUrl='', sigName='', sigTitle='', sigSize=65;
+let summaryMode='dept';
 
+/* ─── SIG ─── */
 function loadSig(input){
-  const file = input.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    sigDataUrl = e.target.result;
-    document.getElementById('sigPreviewImg').src = sigDataUrl;
-    document.getElementById('sigPreviewWrap').style.display = 'block';
-    toast('✅ โหลดลายเซ็นสำเร็จ – จะปรากฏในทุกใบเสร็จ');
-  };
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ sigDataUrl=e.target.result; document.getElementById('sigPreviewImg').src=sigDataUrl; document.getElementById('sigPreviewWrap').style.display='block'; toast('✅ โหลดลายเซ็นสำเร็จ'); };
   reader.readAsDataURL(file);
 }
-function clearSig(){
-  sigDataUrl='';
-  document.getElementById('sigFile').value='';
-  document.getElementById('sigPreviewWrap').style.display='none';
-  toast('🗑️ ลบลายเซ็นแล้ว');
-}
+function clearSig(){ sigDataUrl=''; document.getElementById('sigFile').value=''; document.getElementById('sigPreviewWrap').style.display='none'; toast('🗑️ ลบลายเซ็นแล้ว'); }
 
-// Drag drop
+/* ─── DRAG DROP ─── */
 const dz=document.getElementById('dropZone');
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--sky)';});
 dz.addEventListener('dragleave',()=>dz.style.borderColor='');
 dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
 
+/* ─── FILE ─── */
 function handleFile(file){
-  if(!file)return;
+  if(!file) return;
   monthYear=file.name.replace(/\.xlsx?$/i,'').replace(/_/g,' ').trim();
   const reader=new FileReader();
-  reader.onload=e=>{
-    const wb=XLSX.read(e.target.result,{type:'array'});
-    const ws=wb.Sheets[wb.SheetNames[0]];
-    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:null});
-    parseRows(rows);
-  };
+  reader.onload=e=>{ const wb=XLSX.read(e.target.result,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]]; parseRows(XLSX.utils.sheet_to_json(ws,{header:1,defval:null})); };
   reader.readAsArrayBuffer(file);
 }
-
-function normDept(s){
-  // Remove (ต่อ) so dept pages are merged into one group
-  return s.replace(/\s*\(ต่อ\)\s*/g,'').replace(/\s+/g,' ').trim();
-}
-
+function normDept(s){ return s.replace(/\s*\(ต่อ\)\s*/g,'').replace(/\s+/g,' ').trim(); }
 function parseRows(rows){
-  ALL=[];
-  let dept='', seq=1;
+  ALL=[]; let dept='', seq=1;
   for(const row of rows){
     const c0=row[0],c1=row[1];
-    if(c0&&typeof c0==='string'&&c1==null&&c0!=='ลำดับที่'&&c0!=='รวมทั้งสิ้น'){
-      dept=normDept(c0); continue;
-    }
+    if(c0&&typeof c0==='string'&&c1==null&&c0!=='ลำดับที่'&&c0!=='รวมทั้งสิ้น'){ dept=normDept(c0); continue; }
     if(c0&&typeof c0==='number'&&c1&&typeof c1==='string'){
-      const w=parseFloat(row[2])||0,e=parseFloat(row[3])||0,
-            t=parseFloat(row[4])||0,s=parseFloat(row[5])||0;
+      const w=parseFloat(row[2])||0,e=parseFloat(row[3])||0,t=parseFloat(row[4])||0,s=parseFloat(row[5])||0;
       ALL.push({id:seq++,name:c1.trim(),dept,water:w,elec:e,trash:t,welf:s,total:w+e+t+s});
     }
   }
@@ -444,24 +441,17 @@ function parseRows(rows){
   const sel=document.getElementById('deptSel');
   sel.innerHTML='<option value="">ทุกแผนก</option>';
   depts.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
-
   document.getElementById('sTotal').textContent=ALL.length.toLocaleString();
   document.getElementById('sDepts').textContent=depts.length;
-  const sum=ALL.reduce((a,b)=>a+b.total,0);
-  document.getElementById('sSum').textContent=sum.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
-
+  document.getElementById('sSum').textContent=ALL.reduce((a,b)=>a+b.total,0).toLocaleString('th-TH',{minimumFractionDigits:2});
   document.getElementById('uploadSec').classList.add('hidden');
   document.getElementById('appSec').classList.remove('hidden');
   doFilter();
   toast(`✅ นำเข้าสำเร็จ ${ALL.length} คน จาก ${depts.length} แผนก`);
 }
+function resetFile(){ document.getElementById('uploadSec').classList.remove('hidden'); document.getElementById('appSec').classList.add('hidden'); ALL=[]; filtered=[]; document.getElementById('fi').value=''; }
 
-function resetFile(){
-  document.getElementById('uploadSec').classList.remove('hidden');
-  document.getElementById('appSec').classList.add('hidden');
-  ALL=[];filtered=[];document.getElementById('fi').value='';
-}
-
+/* ─── FILTER ─── */
 function doFilter(){
   const q=document.getElementById('searchIn').value.toLowerCase();
   const d=document.getElementById('deptSel').value;
@@ -469,56 +459,35 @@ function doFilter(){
   currentPage=1; render();
 }
 
+/* ─── TABLE ─── */
 function render(){
-  const tbody=document.getElementById('tbody');
-  const tfoot=document.getElementById('tfoot');
-  const nd=document.getElementById('noData');
-  const start=(currentPage-1)*PER;
-  const page=filtered.slice(start,start+PER);
+  const tbody=document.getElementById('tbody'),tfoot=document.getElementById('tfoot'),nd=document.getElementById('noData');
+  const start=(currentPage-1)*PER, page=filtered.slice(start,start+PER);
   if(!filtered.length){tbody.innerHTML='';tfoot.innerHTML='';nd.classList.remove('hidden');}
   else{
     nd.classList.add('hidden');
     const f=n=>n?n.toLocaleString('th-TH',{minimumFractionDigits:2}):'';
-    tbody.innerHTML=page.map((d,i)=>`
-      <tr>
-        <td style="color:var(--gray);font-size:12px">${start+i+1}</td>
-        <td><div class="name">${d.name}</div><div class="dept-tag">${d.dept}</div></td>
-        <td class="${d.water?'mono':'zero'}">${d.water?f(d.water):'-'}</td>
-        <td class="${d.elec?'mono':'zero'}">${d.elec?f(d.elec):'-'}</td>
-        <td class="${d.trash?'mono':'zero'}">${d.trash?f(d.trash):'-'}</td>
-        <td class="${d.welf?'mono':'zero'}">${d.welf?f(d.welf):'-'}</td>
-        <td class="mono">${f(d.total)}</td>
-        <td><div class="act">
-          <button class="btn-sm btn-prev" onclick="openPreview(${d.id})">👁️ ดู</button>
-          <button class="btn-sm btn-dl"   onclick="printOne(${d.id})">🖨️ พิมพ์</button>
-        </div></td>
-      </tr>`).join('');
-
-    // Summary footer (always shows sum of ALL filtered, not just current page)
-    const sw = filtered.reduce((a,b)=>a+b.water,0);
-    const se = filtered.reduce((a,b)=>a+b.elec,0);
-    const st = filtered.reduce((a,b)=>a+b.trash,0);
-    const ss = filtered.reduce((a,b)=>a+b.welf,0);
-    const stotal = filtered.reduce((a,b)=>a+b.total,0);
-    const label = document.getElementById('deptSel').value
-      ? `รวม ${filtered.length} คน (${document.getElementById('deptSel').value})`
-      : `รวมทั้งหมด ${filtered.length} คน`;
-    tfoot.innerHTML=`<tr>
-      <td colspan="2" class="sum-label">📊 ${label}</td>
-      <td class="sum-val">${f(sw)}</td>
-      <td class="sum-val">${f(se)}</td>
-      <td class="sum-val">${f(st)}</td>
-      <td class="sum-val">${f(ss)}</td>
-      <td class="sum-total">${f(stotal)}</td>
-      <td></td>
-    </tr>`;
+    tbody.innerHTML=page.map((d,i)=>`<tr>
+      <td style="color:var(--gray);font-size:12px">${start+i+1}</td>
+      <td><div class="name">${d.name}</div><div class="dept-tag">${d.dept}</div></td>
+      <td class="${d.water?'mono':'zero'}">${d.water?f(d.water):'-'}</td>
+      <td class="${d.elec?'mono':'zero'}">${d.elec?f(d.elec):'-'}</td>
+      <td class="${d.trash?'mono':'zero'}">${d.trash?f(d.trash):'-'}</td>
+      <td class="${d.welf?'mono':'zero'}">${d.welf?f(d.welf):'-'}</td>
+      <td class="mono">${f(d.total)}</td>
+      <td><div class="act">
+        <button class="btn-sm btn-prev" onclick="openPreview(${d.id})">👁️ ดู</button>
+        <button class="btn-sm btn-dl"   onclick="printOne(${d.id})">🖨️ พิมพ์</button>
+      </div></td>
+    </tr>`).join('');
+    const sw=filtered.reduce((a,b)=>a+b.water,0),se=filtered.reduce((a,b)=>a+b.elec,0),st=filtered.reduce((a,b)=>a+b.trash,0),ss=filtered.reduce((a,b)=>a+b.welf,0),stotal=filtered.reduce((a,b)=>a+b.total,0);
+    const label=document.getElementById('deptSel').value?`รวม ${filtered.length} คน (${document.getElementById('deptSel').value})`:`รวมทั้งหมด ${filtered.length} คน`;
+    tfoot.innerHTML=`<tr><td colspan="2" class="sum-label">📊 ${label}</td><td class="sum-val">${f(sw)}</td><td class="sum-val">${f(se)}</td><td class="sum-val">${f(st)}</td><td class="sum-val">${f(ss)}</td><td class="sum-total">${f(stotal)}</td><td></td></tr>`;
   }
   renderPager();
 }
-
 function renderPager(){
-  const total=Math.ceil(filtered.length/PER);
-  const pg=document.getElementById('pager');
+  const total=Math.ceil(filtered.length/PER),pg=document.getElementById('pager');
   if(total<=1){pg.innerHTML='';return;}
   let h='';
   if(currentPage>1)h+=`<button class="pg" onclick="goPage(${currentPage-1})">‹</button>`;
@@ -532,133 +501,259 @@ function renderPager(){
 }
 function goPage(p){currentPage=p;render();window.scrollTo(0,0);}
 
-// Modal preview
-function openPreview(id){
-  const d=ALL.find(x=>x.id===id);
-  if(!d)return;
-  modalPerson=d;
-  document.getElementById('receiptBox').innerHTML=buildReceiptHTML(d);
-  document.getElementById('overlay').classList.add('on');
-}
-function closeModal(e){if(!e||e.target===document.getElementById('overlay'))document.getElementById('overlay').classList.remove('on');}
-function printOneModal(){if(modalPerson)printOne(modalPerson.id);}
-
-function rno(id){return `RCP-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}-${String(id).padStart(4,'0')}`;}
-function fmt(n){return n?n.toLocaleString('th-TH',{minimumFractionDigits:2}):'-';}
+/* ─── RECEIPT MODAL ─── */
+function openPreview(id){ const d=ALL.find(x=>x.id===id); if(!d) return; modalPerson=d; document.getElementById('receiptBox').innerHTML=buildReceiptHTML(d); document.getElementById('overlay').classList.add('on'); }
+function closeModal(e){ if(!e||e.target===document.getElementById('overlay'))document.getElementById('overlay').classList.remove('on'); }
+function printOneModal(){ if(modalPerson)printOne(modalPerson.id); }
+function rno(id){ return `RCP-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}-${String(id).padStart(4,'0')}`; }
+function fmt(n){ return n?n.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'; }
 
 function buildReceiptHTML(d){
-  const sigImg = sigDataUrl ? `<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">` : '';
-  const displayName = sigName || '............................................';
+  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">`:'';
+  const displayName=sigName||'............................................';
   return `<div class="receipt">
-    <div class="r-head">
-      <div class="org">สำนักงานชลประทานที่ 9</div>
-      <h2>ใบเสร็จค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2>
-      <div class="rno">เลขที่ ${rno(d.id)}</div>
-    </div>
+    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบเสร็จค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
-      <div class="r-meta">
-        <div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div>
-        <div><div class="lb">แผนก</div><div class="vl" style="font-size:12px">${d.dept}</div></div>
-      </div>
-      <table class="r-tbl">
-        <thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead>
-        <tbody>
-          <tr><td>💧 ค่าน้ำประปา</td><td class="${d.water?'':'zero'}">${fmt(d.water)}</td></tr>
-          <tr><td>⚡ ค่าไฟฟ้า</td><td class="${d.elec?'':'zero'}">${fmt(d.elec)}</td></tr>
-          <tr><td>🗑️ ค่าขยะ</td><td class="${d.trash?'':'zero'}">${fmt(d.trash)}</td></tr>
-          <tr><td>❤️ สวัสดิการ</td><td class="${d.welf?'':'zero'}">${fmt(d.welf)}</td></tr>
-        </tbody>
-      </table>
-      <div class="r-total">
-        <div class="tl">ยอดรวมทั้งสิ้น</div>
-        <div class="tv">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} <span style="font-size:13px;opacity:.75">บาท</span></div>
-      </div>
+      <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:12px">${d.dept}</div></div></div>
+      <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
+        <tr><td>💧 ค่าน้ำประปา</td><td class="${d.water?'':'zero'}">${fmt(d.water)}</td></tr>
+        <tr><td>⚡ ค่าไฟฟ้า</td><td class="${d.elec?'':'zero'}">${fmt(d.elec)}</td></tr>
+        <tr><td>🗑️ ค่าขยะ</td><td class="${d.trash?'':'zero'}">${fmt(d.trash)}</td></tr>
+        <tr><td>❤️ สวัสดิการ</td><td class="${d.welf?'':'zero'}">${fmt(d.welf)}</td></tr>
+      </tbody></table>
+      <div class="r-total"><div class="tl">ยอดรวมทั้งสิ้น</div><div class="tv">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} <span style="font-size:13px;opacity:.75">บาท</span></div></div>
     </div>
-    <div class="sig-section" style="grid-template-columns:1fr;">
-      <div class="sig-box">
-        <div class="sig-label">ผู้รับเงิน</div>
-        <div class="sig-img-wrap" style="height:${sigSize*1.8}px;">${sigImg}</div>
-        <div class="sig-line"></div>
-        <div class="sig-name">${displayName}</div>
-        ${sigTitle ? `<div class="sig-role" style="font-weight:600;color:var(--navy);">${sigTitle}</div>` : ''}
-        <div class="sig-role">ผู้รับเงิน / วันที่ ................................</div>
-      </div>
-    </div>
+    <div class="sig-section"><div class="sig-box">
+      <div class="sig-label">ผู้รับเงิน</div>
+      <div class="sig-img-wrap" style="height:${sigSize*1.8}px;">${sigImg}</div>
+      <div class="sig-line"></div><div class="sig-name">${displayName}</div>
+      ${sigTitle?`<div class="sig-role" style="font-weight:600;color:var(--navy);">${sigTitle}</div>`:''}
+      <div class="sig-role">ผู้รับเงิน / วันที่ ................................</div>
+    </div></div>
     <div class="r-foot">กรุณาชำระภายในวันที่กำหนด • ส่วนบริหารทั่วไป สชป.9</div>
   </div>`;
 }
 
-function buildSlip(d){
-  const items=[
-    {l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},
-    {l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}
-  ];
-  const sigImg = sigDataUrl ? `<img src="${sigDataUrl}" style="max-height:${sigSize}px;max-width:85%;object-fit:contain;display:block;margin:0 auto;">` : '';
-  const displayName = sigName || '.............................';
+/* ─── SLIP HTML ─── */
+function buildSlipHTML(d){
+  const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
+  const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize}px;max-width:85%;object-fit:contain;display:block;margin:0 auto;">`:'';
+  const displayName=sigName||'.............................';
   return `<div class="slip">
-    <div class="slip-head">
-      <div class="s-org">สำนักงานชลประทานที่ 9</div>
-      <div class="s-title">ใบเสร็จค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
-      <div class="s-no">เลขที่ ${rno(d.id)}</div>
-    </div>
+    <div class="slip-head"><div class="s-org">สำนักงานชลประทานที่ 9</div><div class="s-title">ใบเสร็จค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div><div class="s-no">เลขที่ ${rno(d.id)}</div></div>
     <div class="slip-body">
-      <div class="slip-name">${d.name}</div>
-      <div class="slip-dept">${d.dept}</div>
-      <table class="slip-rows">
-        ${items.map(it=>`<tr><td>${it.l}</td><td>${it.v?it.v.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'}</td></tr>`).join('')}
-      </table>
-      <div class="slip-total">
-        <div class="st-l">รวมทั้งสิ้น</div>
-        <div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div>
-      </div>
-      <div class="slip-sig" style="grid-template-columns:1fr;">
-        <div class="slip-sig-box">
-          <div class="ss-label">ผู้รับเงิน</div>
-          <div class="ss-img">${sigImg}</div>
-          <div class="ss-line"></div>
-          <div class="ss-name">${displayName}</div>
-          ${sigTitle ? `<div class="ss-title">${sigTitle}</div>` : ''}
-        </div>
-      </div>
+      <div class="slip-name">${d.name}</div><div class="slip-dept">${d.dept}</div>
+      <table class="slip-rows">${items.map(it=>`<tr><td>${it.l}</td><td>${it.v?it.v.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'}</td></tr>`).join('')}</table>
+      <div class="slip-total"><div class="st-l">รวมทั้งสิ้น</div><div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div></div>
+      <div class="slip-sig"><div class="slip-sig-box">
+        <div class="ss-label">ผู้รับเงิน</div>
+        <div class="ss-img">${sigImg}</div>
+        <div class="ss-line"></div><div class="ss-name">${displayName}</div>
+        ${sigTitle?`<div class="ss-title">${sigTitle}</div>`:''}
+      </div></div>
     </div>
   </div>`;
 }
 
+/* ─── PDF MODAL ─── */
+function openPdfModal(){
+  const depts=[...new Set(ALL.map(d=>d.dept))].sort();
+  const list=document.getElementById('pdfDeptList');
+  list.innerHTML=depts.map(dept=>{
+    const count=ALL.filter(d=>d.dept===dept).length;
+    const safeId='btn_'+dept.replace(/[^a-zA-Z0-9]/g,'_');
+    return `<div class="pdf-dept-item">
+      <div class="di-name">📁 ${dept}</div>
+      <div class="di-count">${count} คน</div>
+      <button class="di-btn" id="${safeId}" onclick="exportOneDept('${dept.replace(/'/g,"\\'")}','${safeId}')">📥 Export</button>
+    </div>`;
+  }).join('');
+  document.getElementById('pdfProgress').textContent='';
+  document.getElementById('pdfBarWrap').style.display='none';
+  document.getElementById('pdfBar').style.width='0%';
+  document.getElementById('pdfAllBtn').textContent='📥 Export ทุกแผนกพร้อมกัน';
+  document.getElementById('pdfAllBtn').disabled=false;
+  document.getElementById('pdfOverlay').classList.add('on');
+}
+function closePdfModal(e){ if(!e||e.target===document.getElementById('pdfOverlay'))document.getElementById('pdfOverlay').classList.remove('on'); }
+
+/* ─── CORE: render dept pages → canvas → PDF ─── */
+async function renderDeptToPDF(dept){
+  const people=ALL.filter(d=>d.dept===dept);
+  const area=document.getElementById('pdfRenderArea');
+
+  // Build pages HTML (6 slips per page)
+  let pagesHTML='';
+  for(let i=0;i<people.length;i+=6){
+    const chunk=people.slice(i,i+6);
+    while(chunk.length<6) chunk.push(null);
+    pagesHTML+=`<div class="pdf-page" style="page-break-after:always;">
+      ${chunk.map(d=>d?buildSlipHTML(d):`<div style="border:1px dashed #ddd;border-radius:5px;background:#fafafa;height:88mm;box-sizing:border-box;"></div>`).join('')}
+    </div>`;
+  }
+  area.innerHTML=pagesHTML;
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const pages = area.querySelectorAll('.pdf-page');
+
+  for(let pi=0; pi<pages.length; pi++){
+    const page=pages[pi];
+    const canvas=await html2canvas(page,{scale:2.5, useCORS:true, backgroundColor:'#ffffff', logging:false});
+    const imgData=canvas.toDataURL('image/jpeg',0.92);
+    if(pi>0) pdf.addPage();
+    pdf.addImage(imgData,'JPEG',0,0,210,297);
+  }
+
+  area.innerHTML='';
+  const safeName=dept.replace(/[\\/:*?"<>|]/g,'_');
+  pdf.save(`ใบเสร็จ_${safeName}_${monthYear}.pdf`);
+}
+
+async function exportOneDept(dept, btnId){
+  const btn=document.getElementById(btnId);
+  if(!btn) return;
+  btn.textContent='⏳ กำลังสร้าง...'; btn.disabled=true;
+  try{
+    await renderDeptToPDF(dept);
+    btn.textContent='✅ เสร็จแล้ว'; btn.classList.add('done');
+    toast(`✅ Export PDF แผนก "${dept}" สำเร็จ`);
+  }catch(err){
+    btn.textContent='❌ ผิดพลาด'; btn.disabled=false;
+    toast('❌ เกิดข้อผิดพลาด: '+err.message);
+  }
+}
+
+async function exportAllDepts(){
+  const depts=[...new Set(ALL.map(d=>d.dept))].sort();
+  const allBtn=document.getElementById('pdfAllBtn');
+  allBtn.disabled=true; allBtn.textContent='⏳ กำลัง Export...';
+  const prog=document.getElementById('pdfProgress');
+  const bar=document.getElementById('pdfBar');
+  const barWrap=document.getElementById('pdfBarWrap');
+  barWrap.style.display='block';
+
+  for(let i=0;i<depts.length;i++){
+    const dept=depts[i];
+    prog.textContent=`กำลัง Export: ${dept} (${i+1}/${depts.length})`;
+    bar.style.width=`${Math.round((i/depts.length)*100)}%`;
+    // mark individual button
+    const safeId='btn_'+dept.replace(/[^a-zA-Z0-9]/g,'_');
+    const btn=document.getElementById(safeId);
+    if(btn){btn.textContent='⏳ ...';btn.disabled=true;}
+    try{
+      await renderDeptToPDF(dept);
+      if(btn){btn.textContent='✅ เสร็จ';btn.classList.add('done');}
+    }catch(e){
+      if(btn){btn.textContent='❌ ผิดพลาด';btn.disabled=false;}
+    }
+    // small delay between files
+    await new Promise(r=>setTimeout(r,400));
+  }
+
+  bar.style.width='100%';
+  prog.textContent=`✅ Export ครบทั้ง ${depts.length} แผนกแล้ว!`;
+  allBtn.textContent='✅ Export ครบทุกแผนกแล้ว';
+  toast(`✅ Export PDF ครบ ${depts.length} แผนก สำเร็จ!`);
+}
+
+/* ─── LINE SUMMARY ─── */
+function openLineSummary(){ summaryMode='dept'; updateModeButtons(); buildSummaryText(); document.getElementById('lineOverlay').classList.add('on'); }
+function closeLineModal(e){ if(!e||e.target===document.getElementById('lineOverlay'))document.getElementById('lineOverlay').classList.remove('on'); }
+function setSummaryMode(m){ summaryMode=m; updateModeButtons(); buildSummaryText(); }
+function updateModeButtons(){
+  ['dept','all','top'].forEach(m=>{
+    const btn=document.getElementById('mode'+m.charAt(0).toUpperCase()+m.slice(1));
+    if(!btn) return;
+    if(m===summaryMode){btn.style.background='var(--sky)';btn.style.borderColor='var(--sky)';btn.style.color='#fff';}
+    else{btn.style.background='#fff';btn.style.borderColor='var(--border)';btn.style.color='var(--navy)';}
+  });
+}
+function thaiNum(n){ return n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function buildSummaryText(){
+  const data=filtered.length?filtered:ALL;
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
+  let txt='';
+  if(summaryMode==='dept'){
+    const groups={};
+    data.forEach(p=>{if(!groups[p.dept])groups[p.dept]=[];groups[p.dept].push(p);});
+    txt+=`📋 สรุปค่าสาธารณูปโภค ประจำเดือน ${monthYear}\n🗓️ ${dateStr}\n${'─'.repeat(32)}\n`;
+    let grand=0;
+    Object.keys(groups).sort().forEach(dept=>{
+      const people=groups[dept];const dtotal=people.reduce((a,b)=>a+b.total,0);grand+=dtotal;
+      txt+=`\n📁 ${dept}\n   จำนวน ${people.length} คน\n`;
+      people.forEach(p=>{
+        txt+=`   • ${p.name}\n`;
+        if(p.water)txt+=`     💧 ค่าน้ำ ${thaiNum(p.water)} บ.\n`;
+        if(p.elec) txt+=`     ⚡ ค่าไฟ ${thaiNum(p.elec)} บ.\n`;
+        if(p.trash)txt+=`     🗑️ ค่าขยะ ${thaiNum(p.trash)} บ.\n`;
+        if(p.welf) txt+=`     ❤️ สวัสดิการ ${thaiNum(p.welf)} บ.\n`;
+        txt+=`     💰 รวม ${thaiNum(p.total)} บาท\n`;
+      });
+      txt+=`   ┌ รวมแผนก: ${thaiNum(dtotal)} บาท\n`;
+    });
+    txt+=`\n${'═'.repeat(32)}\n💵 ยอดรวมทั้งสิ้น: ${thaiNum(grand)} บาท\n👥 รวม ${data.length} คน\n`;
+  } else if(summaryMode==='all'){
+    txt+=`📋 รายชื่อค่าสาธารณูปโภค ประจำเดือน ${monthYear}\n🗓️ ${dateStr}\n${'─'.repeat(32)}\n\n`;
+    data.forEach((p,i)=>{txt+=`${i+1}. ${p.name} (${p.dept})\n   รวม ${thaiNum(p.total)} บาท\n`;});
+    txt+=`\n${'─'.repeat(32)}\n💵 ยอดรวม: ${thaiNum(data.reduce((a,b)=>a+b.total,0))} บาท (${data.length} คน)\n`;
+  } else {
+    const depts={};
+    data.forEach(p=>{if(!depts[p.dept])depts[p.dept]={count:0,total:0};depts[p.dept].count++;depts[p.dept].total+=p.total;});
+    const totalAll=data.reduce((a,b)=>a+b.total,0);
+    txt+=`📊 สรุปภาพรวม ค่าสาธารณูปโภค\nประจำเดือน ${monthYear}\n🗓️ ${dateStr}\n${'═'.repeat(32)}\n\n`;
+    txt+=`👥 ผู้อยู่อาศัย: ${data.length} คน\n🏢 จำนวนแผนก: ${Object.keys(depts).length} แผนก\n`;
+    txt+=`💵 ยอดรวมทั้งสิ้น: ${thaiNum(totalAll)} บาท\n\n📁 แยกตามแผนก:\n`;
+    Object.keys(depts).sort().forEach(d=>{txt+=`  • ${d}: ${thaiNum(depts[d].total)} บ. (${depts[d].count} คน)\n`;});
+    txt+=`\n— สชป.9 ส่วนบริหารทั่วไป —`;
+  }
+  document.getElementById('linePreviewText').textContent=txt;
+  const btn=document.getElementById('copyBtn');
+  btn.textContent='📋 Copy ข้อความ'; btn.classList.remove('copied');
+}
+function doCopy(){
+  const text=document.getElementById('linePreviewText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='✅ คัดลอกแล้ว!'; btn.classList.add('copied');
+    toast('✅ คัดลอกแล้ว! วางใน LINE ได้เลย 💬');
+    setTimeout(()=>{btn.textContent='📋 Copy ข้อความ';btn.classList.remove('copied');},3000);
+  }).catch(()=>{
+    const el=document.getElementById('linePreviewText');
+    const sel=window.getSelection();sel.removeAllRanges();
+    const range=document.createRange();range.selectNodeContents(el);
+    sel.addRange(range);document.execCommand('copy');sel.removeAllRanges();
+    toast('✅ คัดลอกแล้ว!');
+  });
+}
+
+/* ─── PRINT ─── */
 function buildPrintPages(people){
   let html='';
   for(let i=0;i<people.length;i+=6){
     const chunk=people.slice(i,i+6);
-    while(chunk.length<6) chunk.push(null);
-    html+=`<div class="print-page">
-      ${chunk.map(d=>d
-        ? buildSlip(d)
-        : `<div style="border:1px dashed #ddd;border-radius:5px;background:#fafafa;height:88mm;"></div>`
-      ).join('')}
-    </div>`;
+    while(chunk.length<6)chunk.push(null);
+    html+=`<div class="print-page">${chunk.map(d=>d?buildSlipHTML(d):`<div style="border:1px dashed #ddd;border-radius:5px;background:#fafafa;height:88mm;"></div>`).join('')}</div>`;
   }
   return html;
 }
-
 function doPrint(people){
   if(!people.length){toast('⚠️ ไม่มีข้อมูล');return;}
   const pa=document.getElementById('printArea');
-  pa.innerHTML=buildPrintPages(people);
-  pa.style.display='block';
-  setTimeout(()=>{
-    window.print();
-    setTimeout(()=>{pa.innerHTML='';pa.style.display='none';},600);
-  },250);
+  pa.innerHTML=buildPrintPages(people); pa.style.display='block';
+  setTimeout(()=>{window.print();setTimeout(()=>{pa.innerHTML='';pa.style.display='none';},600);},250);
 }
-
 function printAll()      {doPrint(ALL);}
 function printFiltered() {doPrint(filtered);}
 function printOne(id)    {const d=ALL.find(x=>x.id===id);if(d)doPrint([d]);}
 
+/* ─── TOAST ─── */
 function toast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('on');
+  t.textContent=msg; t.classList.add('on');
   clearTimeout(window._tt);
-  window._tt=setTimeout(()=>t.classList.remove('on'),3200);
+  window._tt=setTimeout(()=>t.classList.remove('on'),3500);
 }
 </script>
 </body>
