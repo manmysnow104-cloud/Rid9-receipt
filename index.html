@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบออกใบรับเงิน – ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </title>
+<title>ระบบออกใบรับเงิน – สำนักงานชลประทานที่ 9</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -265,7 +265,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   background:#fff;
 }
 
-/* ชื่อ + ส่วน */
+/* ชื่อ + แผนก */
 .slip-name {
   font-weight:800;
   font-size:8.5pt;
@@ -393,6 +393,31 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .toast.on { opacity:1; transform:translateY(0); }
 .hidden { display:none !important; }
 
+/* ── HELP MODAL ── */
+.help-modal {
+  background:#fff; border-radius:18px; max-width:600px; width:100%;
+  max-height:88vh; overflow-y:auto;
+  box-shadow:0 20px 60px rgba(13,33,55,.3); animation:up .22s ease;
+}
+.help-header {
+  background:linear-gradient(130deg,var(--navy),var(--blue));
+  padding:18px 24px; border-radius:18px 18px 0 0;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.help-header h3 { color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.help-x { width:32px; height:32px; border-radius:50%; border:none; background:rgba(255,255,255,.2); cursor:pointer; font-size:16px; color:#fff; display:flex; align-items:center; justify-content:center; }
+.help-body { padding:22px 26px; }
+.help-step { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+.help-num { width:30px; height:30px; border-radius:50%; background:var(--navy); color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.help-text h4 { font-size:14px; font-weight:800; color:var(--navy); margin-bottom:3px; }
+.help-text p  { font-size:13px; color:var(--gray); line-height:1.6; }
+.help-text code { background:#f0f5fa; border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:12px; color:var(--blue); font-family:monospace; }
+.help-divider { border:none; border-top:1px dashed var(--border); margin:18px 0; }
+.help-tip { background:#fffbea; border:1px solid #f0d070; border-radius:10px; padding:12px 16px; font-size:13px; color:#7a5800; line-height:1.7; }
+.btn-tpl { background:#7c3aed; color:#fff; }
+.btn-tpl:hover { background:#6d28d9; transform:translateY(-1px); }
+
+
 /* ── ECO PRINT MODE ── */
 body.eco-mode .slip-head {
   background:none !important;
@@ -420,7 +445,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
   <div class="header-icon">💧</div>
   <div>
     <h1>ระบบออกใบรับเงินค่าสาธารณูปโภค</h1>
-    <p>ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป  • K.KITJA รองรับทุกๆเดือน</p>
+    <p>สำนักงานชลประทานที่ 9 • K.KITJA รองรับทุกๆเดือน</p>
   </div>
 </div>
 
@@ -449,6 +474,12 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
     <span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:'Sarabun',sans-serif;">ขนาดลายเซ็น · <span id="sigSizeVal">65px</span></span>
     <input id="sigSizeSlider" type="range" min="20" max="80" value="65" oninput="sigSize=+this.value;document.getElementById('sigSizeVal').textContent=this.value+'px'" style="width:120px;accent-color:#f0a500;cursor:pointer;margin-top:4px;">
   </div>
+
+  <!-- ปุ่มขวาสุด -->
+  <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <a href="https://docs.google.com/spreadsheets/d/1a3bBBFtfQzjNV5JzSB4rX96NpT6gYMejCswAxhSzfuk/edit?usp=sharing" target="_blank" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none;font-family:'Sarabun',sans-serif;white-space:nowrap;transition:background .18s;" onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">📄 ดาวน์โหลด Template</a>
+    <button onclick="openHelp()" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:'Sarabun',sans-serif;white-space:nowrap;transition:background .18s;" onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">❓ วิธีใช้งาน</button>
+  </div>
 </div>
 
 <div class="wrap">
@@ -466,7 +497,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
   <div id="appSec" class="hidden">
     <div class="stats">
       <div class="stat"><div class="lb">ผู้อยู่อาศัย</div><div class="vl" id="sTotal">0</div><div class="sl">คน</div></div>
-      <div class="stat"><div class="lb">ส่วน</div><div class="vl" id="sDepts">0</div><div class="sl">หน่วยงาน</div></div>
+      <div class="stat"><div class="lb">แผนก</div><div class="vl" id="sDepts">0</div><div class="sl">หน่วยงาน</div></div>
       <div class="stat"><div class="lb">ยอดรวมทั้งหมด</div><div class="vl" id="sSum">0</div><div class="sl">บาท</div></div>
     </div>
 
@@ -476,7 +507,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
         <input type="text" id="searchIn" placeholder="ค้นหาชื่อ-สกุล..." oninput="doFilter()">
       </div>
       <select class="dept" id="deptSel" onchange="doFilter()">
-        <option value="">ทุกส่วน</option>
+        <option value="">ทุกแผนก</option>
       </select>
       <button class="btn btn-outline" onclick="resetFile()">🔄 เปลี่ยนไฟล์</button>
       <button class="btn btn-line"    onclick="openLineSummary()">💬 Copy สรุป → LINE</button>
@@ -490,7 +521,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
         <thead>
           <tr>
             <th style="width:44px">ที่</th>
-            <th>ชื่อ - สกุล / ส่วน</th>
+            <th>ชื่อ - สกุล / แผนก</th>
             <th>ค่าน้ำ</th><th>ค่าไฟ</th><th>ค่าขยะ</th><th>สวัสดิการ</th>
             <th>รวม (บาท)</th>
             <th style="width:130px;text-align:center">จัดการ</th>
@@ -517,8 +548,8 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
 <!-- PDF DEPT MODAL -->
 <div class="overlay" id="pdfOverlay" onclick="closePdfModal(event)">
   <div class="pdf-modal" onclick="event.stopPropagation()">
-    <h3>📥 Export PDF แยกตามส่วน</h3>
-    <p>เลือกส่วนที่ต้องการ หรือ Export ทั้งหมดพร้อมกัน</p>
+    <h3>📥 Export PDF แยกตามแผนก</h3>
+    <p>เลือกแผนกที่ต้องการ หรือ Export ทั้งหมดพร้อมกัน</p>
     <div class="pdf-dept-list" id="pdfDeptList"></div>
     <div class="pdf-progress" id="pdfProgress"></div>
     <div class="progress-bar-wrap" id="pdfBarWrap" style="display:none">
@@ -537,7 +568,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
     <div class="line-body">
       <div class="line-tip">💡 <span>กด <strong>"Copy ข้อความ"</strong> แล้วไปวางใน LINE ได้เลย</span></div>
       <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
-        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามส่วน</button>
+        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามแผนก</button>
         <button onclick="setSummaryMode('all')"  id="modeAll"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📋 รายชื่อทั้งหมด</button>
         <button onclick="setSummaryMode('top')"  id="modeTop"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📊 สรุปภาพรวม</button>
       </div>
@@ -552,6 +583,86 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
 
 <!-- PDF RENDER (hidden) -->
 <div id="pdfRenderArea"></div>
+
+<!-- HELP MODAL -->
+<div class="overlay" id="helpOverlay" onclick="closeHelp(event)">
+  <div class="help-modal" onclick="event.stopPropagation()">
+    <div class="help-header">
+      <h3>📖 วิธีใช้งานระบบ</h3>
+      <button class="help-x" onclick="closeHelp()">✕</button>
+    </div>
+    <div class="help-body">
+
+      <div class="help-step">
+        <div class="help-num">1</div>
+        <div class="help-text">
+          <h4>📄 ดาวน์โหลด Template Excel</h4>
+          <p>กดปุ่ม <strong>"ดาวน์โหลด Template"</strong> เพื่อรับไฟล์ตัวอย่าง Excel ที่มีรูปแบบถูกต้อง ชื่อไฟล์ควรเป็นชื่อเดือน เช่น <code>มกราคม 2568.xlsx</code> ระบบจะดึงชื่อไฟล์มาแสดงในใบรับเงินโดยอัตโนมัติ</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">2</div>
+        <div class="help-text">
+          <h4>📝 กรอกข้อมูลใน Excel</h4>
+          <p>โครงสร้างไฟล์ Excel ต้องเป็นดังนี้</p>
+          <p>• แถวที่มีแค่ <strong>คอลัมน์ A</strong> = ชื่อส่วน/แผนก<br>
+             • แถวข้อมูล: <code>ลำดับ | ชื่อ-สกุล | ค่าน้ำ | ค่าไฟ | ค่าขยะ | สวัสดิการ</code></p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">3</div>
+        <div class="help-text">
+          <h4>📂 นำเข้าไฟล์ Excel</h4>
+          <p>กดปุ่ม <strong>"เลือกไฟล์ Excel"</strong> หรือ <strong>ลากไฟล์มาวาง</strong> ในพื้นที่อัปโหลด ระบบจะโหลดข้อมูลและแสดงตารางทันที</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">4</div>
+        <div class="help-text">
+          <h4>🖊️ ตั้งค่าลายเซ็น</h4>
+          <p>ที่แถบด้านบน กรอก <strong>ชื่อผู้รับเงิน</strong> และ <strong>ตำแหน่ง</strong> จากนั้นอัปโหลดรูปลายเซ็น (PNG พื้นหลังโปร่งใสจะสวยที่สุด) ปรับขนาดด้วย Slider</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">5</div>
+        <div class="help-text">
+          <h4>🖨️ พิมพ์ใบรับเงิน</h4>
+          <p>• <strong>พิมพ์ทั้งหมด</strong> — พิมพ์ทุกคนในระบบ (6 ใบ/หน้า A4)<br>
+             • <strong>พิมพ์ที่กรอง</strong> — พิมพ์เฉพาะส่วนที่เลือกใน dropdown<br>
+             • กดปุ่ม <strong>🖨️ พิมพ์</strong> หน้าตารางเพื่อพิมพ์รายคน</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">6</div>
+        <div class="help-text">
+          <h4>📥 Export PDF แยกส่วน</h4>
+          <p>กดปุ่ม <strong>"Export PDF"</strong> เลือกส่วนที่ต้องการ ระบบจะสร้างไฟล์ PDF แยกตามส่วนให้อัตโนมัติ</p>
+        </div>
+      </div>
+
+      <div class="help-step">
+        <div class="help-num">7</div>
+        <div class="help-text">
+          <h4>💬 Copy สรุป → LINE</h4>
+          <p>กดปุ่ม <strong>"Copy สรุป → LINE"</strong> เลือกรูปแบบที่ต้องการ แล้ว Copy ไปวางใน LINE Group ได้เลย</p>
+        </div>
+      </div>
+
+      <hr class="help-divider">
+      <div class="help-tip">
+        💡 <strong>เคล็ดลับ:</strong> ชื่อไฟล์ Excel = ชื่อเดือนที่จะแสดงบนใบรับเงิน เช่น <code>มีนาคม 2568.xlsx</code><br>
+        🌿 ระบบตั้งค่าเป็น <strong>โหมดประหยัดหมึก</strong> ไว้แล้ว ประหยัดหมึกปริ้นได้มากครับ
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
@@ -600,7 +711,7 @@ function parseRows(rows){
   }
   const depts=[...new Set(ALL.map(d=>d.dept))].sort();
   const sel=document.getElementById('deptSel');
-  sel.innerHTML='<option value="">ทุกส่วน</option>';
+  sel.innerHTML='<option value="">ทุกแผนก</option>';
   depts.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
   document.getElementById('sTotal').textContent=ALL.length.toLocaleString();
   document.getElementById('sDepts').textContent=depts.length;
@@ -608,7 +719,7 @@ function parseRows(rows){
   document.getElementById('uploadSec').classList.add('hidden');
   document.getElementById('appSec').classList.remove('hidden');
   doFilter();
-  toast(`✅ นำเข้าสำเร็จ ${ALL.length} คน จาก ${depts.length} ส่วน`);
+  toast(`✅ นำเข้าสำเร็จ ${ALL.length} คน จาก ${depts.length} แผนก`);
 }
 function resetFile(){ document.getElementById('uploadSec').classList.remove('hidden'); document.getElementById('appSec').classList.add('hidden'); ALL=[]; filtered=[]; document.getElementById('fi').value=''; }
 
@@ -673,9 +784,9 @@ function buildReceiptHTML(d){
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">`:'';
   const displayName=sigName||'............................................';
   return `<div class="receipt">
-    <div class="r-head"><div class="org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
+    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
-      <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">ส่วน</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
+      <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
       <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
         <tr><td>💧 ค่าน้ำประปา</td><td class="${d.water?'':'zero'}">${fmt(d.water)}</td></tr>
         <tr><td>⚡ ค่าไฟฟ้า</td><td class="${d.elec?'':'zero'}">${fmt(d.elec)}</td></tr>
@@ -697,14 +808,14 @@ function buildReceiptHTML(d){
 
 /* ─── SLIP HTML ─── */
 function buildSlipHTML(d){
-  const items=[{l:'💧ค่าน้ำประปา',v:d.water},{l:'⚡ ค่าไฟฟ้า',v:d.elec},{l:'🗑️ ค่าขยะ',v:d.trash},{l:'❤️ สวัสดิการ',v:d.welf}];
+  const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
   // จำกัดความสูงรูปลายเซ็นให้ไม่เกิน 18mm (≈68px ที่ 96dpi) เพื่อให้ชื่อ+ตำแหน่งยังแสดงได้
   const capSize = Math.min(sigSize, 68);
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:82%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
   return `<div class="slip">
     <div class="slip-head">
-      <div class="s-org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div>
+      <div class="s-org">สำนักงานชลประทานที่ 9</div>
       <div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
       <div class="s-no">เลขที่ ${rno(d.id)}</div>
     </div>
@@ -779,7 +890,7 @@ async function exportOneDept(dept, btnId){
   try{
     await renderDeptToPDF(dept);
     btn.textContent='✅ เสร็จแล้ว'; btn.classList.add('done');
-    toast(`✅ Export PDF ส่วน "${dept}" สำเร็จ`);
+    toast(`✅ Export PDF แผนก "${dept}" สำเร็จ`);
   }catch(err){
     btn.textContent='❌ ผิดพลาด'; btn.disabled=false;
     toast('❌ เกิดข้อผิดพลาด: '+err.message);
@@ -810,9 +921,9 @@ async function exportAllDepts(){
     await new Promise(r=>setTimeout(r,400));
   }
   bar.style.width='100%';
-  prog.textContent=`✅ Export ครบทั้ง ${depts.length} ส่วนแล้ว!`;
-  if(allBtn){allBtn.textContent='✅ ครบทุกส่วนแล้ว'; allBtn.disabled=false;}
-  toast(`✅ Export PDF ครบ ${depts.length} ส่วน สำเร็จ!`);
+  prog.textContent=`✅ Export ครบทั้ง ${depts.length} แผนกแล้ว!`;
+  if(allBtn){allBtn.textContent='✅ ครบทุกแผนกแล้ว'; allBtn.disabled=false;}
+  toast(`✅ Export PDF ครบ ${depts.length} แผนก สำเร็จ!`);
 }
 
 /* ─── LINE SUMMARY ─── */
@@ -849,7 +960,7 @@ function buildSummaryText(){
         if(p.welf) txt+=`     ❤️ สวัสดิการ ${thaiNum(p.welf)} บ.\n`;
         txt+=`     💰 รวม ${thaiNum(p.total)} บาท\n`;
       });
-      txt+=`   ┌ รวมส่วน: ${thaiNum(dtotal)} บาท\n`;
+      txt+=`   ┌ รวมแผนก: ${thaiNum(dtotal)} บาท\n`;
     });
     txt+=`\n${'═'.repeat(32)}\n💵 ยอดรวมทั้งสิ้น: ${thaiNum(grand)} บาท\n👥 รวม ${data.length} คน\n`;
   } else if(summaryMode==='all'){
@@ -861,8 +972,8 @@ function buildSummaryText(){
     data.forEach(p=>{if(!depts[p.dept])depts[p.dept]={count:0,total:0};depts[p.dept].count++;depts[p.dept].total+=p.total;});
     const totalAll=data.reduce((a,b)=>a+b.total,0);
     txt+=`📊 สรุปภาพรวม ค่าสาธารณูปโภค\nประจำเดือน ${monthYear}\n🗓️ ${dateStr}\n${'═'.repeat(32)}\n\n`;
-    txt+=`👥 ผู้อยู่อาศัย: ${data.length} คน\n🏢 จำนวนส่วน: ${Object.keys(depts).length} ส่วน\n`;
-    txt+=`💵 ยอดรวมทั้งสิ้น: ${thaiNum(totalAll)} บาท\n\n📁 แยกตามส่วน:\n`;
+    txt+=`👥 ผู้อยู่อาศัย: ${data.length} คน\n🏢 จำนวนแผนก: ${Object.keys(depts).length} แผนก\n`;
+    txt+=`💵 ยอดรวมทั้งสิ้น: ${thaiNum(totalAll)} บาท\n\n📁 แยกตามแผนก:\n`;
     Object.keys(depts).sort().forEach(d=>{txt+=`  • ${d}: ${thaiNum(depts[d].total)} บ. (${depts[d].count} คน)\n`;});
     txt+=`\n— สชป.9 ส่วนบริหารทั่วไป —`;
   }
@@ -923,6 +1034,10 @@ function toggleEco(){
     toast('🖨️ โหมดปกติ — พิมพ์สีเต็ม');
   }
 }
+
+/* ─── HELP MODAL ─── */
+function openHelp(){ document.getElementById('helpOverlay').classList.add('on'); }
+function closeHelp(e){ if(!e||e.target===document.getElementById('helpOverlay'))document.getElementById('helpOverlay').classList.remove('on'); }
 
 /* ─── TOAST ─── */
 function toast(msg){
