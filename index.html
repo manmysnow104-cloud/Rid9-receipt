@@ -51,7 +51,13 @@ body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--n
 .stat .vl { font-size:26px; font-weight:800; color:var(--navy); margin-top:3px; }
 .stat .sl { font-size:12px; color:var(--sky); margin-top:1px; }
 
-.ctrls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+.ctrls {
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-bottom:16px;
+  flex-wrap:nowrap;
+}
 .search-wrap { flex:1; min-width:220px; position:relative; }
 .search-wrap span { position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:17px; }
 .search-wrap input {
@@ -63,7 +69,7 @@ body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--n
 select.dept {
   padding:10px 14px; border:1.5px solid var(--border); border-radius:9px;
   font-size:13px; font-family:'Sarabun',sans-serif; background:var(--white);
-  color:var(--navy); cursor:pointer; outline:none; min-width:190px;
+  color:var(--navy); cursor:pointer; outline:none; width:220px;
 }
 .btn {
   padding:10px 18px; border-radius:9px; font-size:13px; font-weight:700;
@@ -238,19 +244,19 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-head {
   background:linear-gradient(130deg,#0d2137,#1a4a7a);
   color:#fff;
-  padding:5px 10px;
+  padding:4px 10px;
   text-align:center;
   flex-shrink:0;
   -webkit-print-color-adjust:exact;
   print-color-adjust:exact;
 }
-.s-org   { font-size:7pt; color:#e0eaf5; letter-spacing:.5px; }
-.s-title { font-weight:800; font-size:8.5pt; line-height:1.25; color:#ffffff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
-.s-no    { font-size:7pt; color:#cde0f5; margin-top:1px; background:rgba(255,255,255,.2); display:inline-block; padding:0 8px; border-radius:8px; }
+.s-org   { font-size:6.5pt; color:#e0eaf5; letter-spacing:.5px; line-height:1.6; display:block; }
+.s-title { font-weight:800; font-size:8pt; line-height:1.6; color:#ffffff; display:block; }
+.s-no    { font-size:6.5pt; color:#cde0f5; margin-top:1px; background:rgba(255,255,255,.2); display:inline-block; padding:0 8px; border-radius:8px; line-height:1.6; }
 
 /* ── SLIP BODY ── */
 .slip-body {
-  padding:5px 9px 4px;
+  padding:4px 9px 3px;
   flex:1;
   display:flex;
   flex-direction:column;
@@ -259,10 +265,10 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   background:#fff;
 }
 
-/* ชื่อ + แผนก */
+/* ชื่อ + ส่วน */
 .slip-name {
   font-weight:800;
-  font-size:9pt;
+  font-size:8.5pt;
   color:#0a0f1a;
   white-space:nowrap;
   overflow:hidden;
@@ -271,10 +277,10 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   flex-shrink:0;
 }
 .slip-dept {
-  font-size:7pt;
+  font-size:6.5pt;
   color:#1045a0;
   font-weight:700;
-  margin-bottom:3px;
+  margin-bottom:2px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -286,11 +292,11 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-rows {
   width:100%;
   border-collapse:collapse;
-  font-size:7.5pt;
+  font-size:7pt;
   flex-shrink:0;
 }
 .slip-rows td {
-  padding:2px 4px;
+  padding:1px 4px;
   border-bottom:1px solid #b0cce0;
   color:#0a0f1a;
   line-height:1.6;
@@ -304,20 +310,22 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   background:linear-gradient(90deg,#0d2137,#1a4a7a);
   color:#fff;
   border-radius:4px;
-  padding:4px 9px;
+  padding:3px 9px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-top:3px;
+  margin-top:2px;
   flex-shrink:0;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
 }
-.st-l { font-size:7.5pt; color:rgba(255,255,255,.9); font-weight:600; }
-.st-v { font-size:11pt; font-weight:800; color:#fff; }
+.st-l { font-size:7pt; color:rgba(255,255,255,.9); font-weight:600; line-height:1.6; }
+.st-v { font-size:10pt; font-weight:800; color:#fff; line-height:1.6; }
 
 /* ── SIGNATURE ── */
 .slip-sig {
   margin-top:auto;
-  padding-top:3px;
+  padding-top:2px;
   border-top:1px dashed #93c5d8;
   flex-shrink:0;
 }
@@ -326,14 +334,12 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:0;
 }
 .slip-sig-box .ss-label {
   font-size:6.5pt;
   color:#1045a0;
   font-weight:700;
-  margin-bottom:1px;
-  line-height:1.2;
+  line-height:1.6;
 }
 .slip-sig-box .ss-img {
   width:100%;
@@ -341,7 +347,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  max-height:18mm;
+  max-height:15mm;
   flex-shrink:0;
 }
 .slip-sig-box .ss-img img {
@@ -353,11 +359,11 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .slip-sig-box .ss-line {
   border-bottom:1.5px solid #0a0f1a;
   width:calc(100% - 16px);
-  margin:2px 8px;
+  margin:1px 8px;
   flex-shrink:0;
 }
 .slip-sig-box .ss-name {
-  font-size:7.5pt;
+  font-size:7pt;
   color:#0a0f1a;
   font-weight:800;
   line-height:1.6;
@@ -386,9 +392,29 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 .toast { position:fixed; bottom:28px; right:28px; background:var(--green); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 6px 20px rgba(0,0,0,.2); z-index:9999; opacity:0; transform:translateY(10px); transition:all .28s; pointer-events:none; }
 .toast.on { opacity:1; transform:translateY(0); }
 .hidden { display:none !important; }
+
+/* ── ECO PRINT MODE ── */
+body.eco-mode .slip-head {
+  background:none !important;
+  border-bottom:2px solid #0a0f1a;
+}
+body.eco-mode .s-org   { color:#444 !important; }
+body.eco-mode .s-title { color:#0a0f1a !important; text-shadow:none !important; }
+body.eco-mode .s-no    { color:#0a0f1a !important; background:none !important; border:1px solid #0a0f1a; }
+body.eco-mode .slip-total {
+  background:none !important;
+  border:1.5px solid #0a0f1a;
+  border-radius:4px;
+}
+body.eco-mode .st-l { color:#0a0f1a !important; }
+body.eco-mode .st-v { color:#0a0f1a !important; }
+.eco-btn { padding:10px 16px; border-radius:9px; font-size:13px; font-weight:700; cursor:pointer; border:1.5px solid var(--border); background:#fff; color:var(--navy); font-family:'Sarabun',sans-serif; transition:all .18s; display:flex; align-items:center; gap:5px; white-space:nowrap; }
+.eco-btn.active { background:#1b7a4e; color:#fff; border-color:#1b7a4e; }
+.eco-btn:hover { border-color:var(--sky); }
+
 </style>
 </head>
-<body>
+<body class="eco-mode">
 
 <div class="header">
   <div class="header-icon">💧</div>
@@ -440,7 +466,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
   <div id="appSec" class="hidden">
     <div class="stats">
       <div class="stat"><div class="lb">ผู้อยู่อาศัย</div><div class="vl" id="sTotal">0</div><div class="sl">คน</div></div>
-      <div class="stat"><div class="lb">แผนก</div><div class="vl" id="sDepts">0</div><div class="sl">หน่วยงาน</div></div>
+      <div class="stat"><div class="lb">ส่วน</div><div class="vl" id="sDepts">0</div><div class="sl">หน่วยงาน</div></div>
       <div class="stat"><div class="lb">ยอดรวมทั้งหมด</div><div class="vl" id="sSum">0</div><div class="sl">บาท</div></div>
     </div>
 
@@ -450,11 +476,11 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
         <input type="text" id="searchIn" placeholder="ค้นหาชื่อ-สกุล..." oninput="doFilter()">
       </div>
       <select class="dept" id="deptSel" onchange="doFilter()">
-        <option value="">ทุกแผนก</option>
+        <option value="">ทุกส่วน</option>
       </select>
       <button class="btn btn-outline" onclick="resetFile()">🔄 เปลี่ยนไฟล์</button>
       <button class="btn btn-line"    onclick="openLineSummary()">💬 Copy สรุป → LINE</button>
-      <button class="btn btn-pdf"     onclick="openPdfModal()">📥 Export PDF แยกแผนก</button>
+      <button class="btn btn-pdf"     onclick="openPdfModal()">📥 Export PDF</button>
       <button class="btn btn-primary" onclick="printAll()">🖨️ พิมพ์ทั้งหมด</button>
       <button class="btn btn-accent"  onclick="printFiltered()">🖨️ พิมพ์ที่กรอง</button>
     </div>
@@ -464,7 +490,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
         <thead>
           <tr>
             <th style="width:44px">ที่</th>
-            <th>ชื่อ - สกุล / แผนก</th>
+            <th>ชื่อ - สกุล / ส่วน</th>
             <th>ค่าน้ำ</th><th>ค่าไฟ</th><th>ค่าขยะ</th><th>สวัสดิการ</th>
             <th>รวม (บาท)</th>
             <th style="width:130px;text-align:center">จัดการ</th>
@@ -491,12 +517,9 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
 <!-- PDF DEPT MODAL -->
 <div class="overlay" id="pdfOverlay" onclick="closePdfModal(event)">
   <div class="pdf-modal" onclick="event.stopPropagation()">
-    <h3>📥 Export PDF แยกตามแผนก</h3>
-    <p>เลือกแผนกที่ต้องการ หรือ Export ทั้งหมดพร้อมกัน</p>
+    <h3>📥 Export PDF แยกตามส่วน</h3>
+    <p>เลือกส่วนที่ต้องการ หรือ Export ทั้งหมดพร้อมกัน</p>
     <div class="pdf-dept-list" id="pdfDeptList"></div>
-    <button class="pdf-all-btn" id="pdfAllBtn" onclick="exportAllDepts()">
-      📥 Export ทุกแผนกพร้อมกัน
-    </button>
     <div class="pdf-progress" id="pdfProgress"></div>
     <div class="progress-bar-wrap" id="pdfBarWrap" style="display:none">
       <div class="progress-bar" id="pdfBar"></div>
@@ -514,7 +537,7 @@ tfoot td.sum-label { font-size:12px; color:var(--gray); font-weight:700; letter-
     <div class="line-body">
       <div class="line-tip">💡 <span>กด <strong>"Copy ข้อความ"</strong> แล้วไปวางใน LINE ได้เลย</span></div>
       <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
-        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามแผนก</button>
+        <button onclick="setSummaryMode('dept')" id="modeDept" style="padding:7px 16px;border-radius:8px;border:2px solid var(--sky);background:var(--sky);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📁 แยกตามส่วน</button>
         <button onclick="setSummaryMode('all')"  id="modeAll"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📋 รายชื่อทั้งหมด</button>
         <button onclick="setSummaryMode('top')"  id="modeTop"  style="padding:7px 16px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--navy);font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;">📊 สรุปภาพรวม</button>
       </div>
@@ -577,7 +600,7 @@ function parseRows(rows){
   }
   const depts=[...new Set(ALL.map(d=>d.dept))].sort();
   const sel=document.getElementById('deptSel');
-  sel.innerHTML='<option value="">ทุกแผนก</option>';
+  sel.innerHTML='<option value="">ทุกส่วน</option>';
   depts.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
   document.getElementById('sTotal').textContent=ALL.length.toLocaleString();
   document.getElementById('sDepts').textContent=depts.length;
@@ -585,7 +608,7 @@ function parseRows(rows){
   document.getElementById('uploadSec').classList.add('hidden');
   document.getElementById('appSec').classList.remove('hidden');
   doFilter();
-  toast(`✅ นำเข้าสำเร็จ ${ALL.length} คน จาก ${depts.length} แผนก`);
+  toast(`✅ นำเข้าสำเร็จ ${ALL.length} คน จาก ${depts.length} ส่วน`);
 }
 function resetFile(){ document.getElementById('uploadSec').classList.remove('hidden'); document.getElementById('appSec').classList.add('hidden'); ALL=[]; filtered=[]; document.getElementById('fi').value=''; }
 
@@ -652,7 +675,7 @@ function buildReceiptHTML(d){
   return `<div class="receipt">
     <div class="r-head"><div class="org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
-      <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
+      <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">ส่วน</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
       <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
         <tr><td>💧 ค่าน้ำประปา</td><td class="${d.water?'':'zero'}">${fmt(d.water)}</td></tr>
         <tr><td>⚡ ค่าไฟฟ้า</td><td class="${d.elec?'':'zero'}">${fmt(d.elec)}</td></tr>
@@ -674,7 +697,7 @@ function buildReceiptHTML(d){
 
 /* ─── SLIP HTML ─── */
 function buildSlipHTML(d){
-  const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
+  const items=[{l:'💧ค่าน้ำประปา',v:d.water},{l:'⚡ ค่าไฟฟ้า',v:d.elec},{l:'🗑️ ค่าขยะ',v:d.trash},{l:'❤️ สวัสดิการ',v:d.welf}];
   // จำกัดความสูงรูปลายเซ็นให้ไม่เกิน 18mm (≈68px ที่ 96dpi) เพื่อให้ชื่อ+ตำแหน่งยังแสดงได้
   const capSize = Math.min(sigSize, 68);
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:82%;object-fit:contain;display:block;margin:0 auto;">`:'';
@@ -717,8 +740,6 @@ function openPdfModal(){
   document.getElementById('pdfProgress').textContent='';
   document.getElementById('pdfBarWrap').style.display='none';
   document.getElementById('pdfBar').style.width='0%';
-  document.getElementById('pdfAllBtn').textContent='📥 Export ทุกแผนกพร้อมกัน';
-  document.getElementById('pdfAllBtn').disabled=false;
   document.getElementById('pdfOverlay').classList.add('on');
 }
 function closePdfModal(e){ if(!e||e.target===document.getElementById('pdfOverlay'))document.getElementById('pdfOverlay').classList.remove('on'); }
@@ -758,7 +779,7 @@ async function exportOneDept(dept, btnId){
   try{
     await renderDeptToPDF(dept);
     btn.textContent='✅ เสร็จแล้ว'; btn.classList.add('done');
-    toast(`✅ Export PDF แผนก "${dept}" สำเร็จ`);
+    toast(`✅ Export PDF ส่วน "${dept}" สำเร็จ`);
   }catch(err){
     btn.textContent='❌ ผิดพลาด'; btn.disabled=false;
     toast('❌ เกิดข้อผิดพลาด: '+err.message);
@@ -767,8 +788,8 @@ async function exportOneDept(dept, btnId){
 
 async function exportAllDepts(){
   const depts=[...new Set(ALL.map(d=>d.dept))].sort();
-  const allBtn=document.getElementById('pdfAllBtn');
-  allBtn.disabled=true; allBtn.textContent='⏳ กำลัง Export...';
+  const allBtn=document.getElementById('mainExportAllBtn');
+  if(allBtn){allBtn.disabled=true; allBtn.textContent='⏳ กำลัง Export...';}
   const prog=document.getElementById('pdfProgress');
   const bar=document.getElementById('pdfBar');
   const barWrap=document.getElementById('pdfBarWrap');
@@ -789,9 +810,9 @@ async function exportAllDepts(){
     await new Promise(r=>setTimeout(r,400));
   }
   bar.style.width='100%';
-  prog.textContent=`✅ Export ครบทั้ง ${depts.length} แผนกแล้ว!`;
-  allBtn.textContent='✅ Export ครบทุกแผนกแล้ว';
-  toast(`✅ Export PDF ครบ ${depts.length} แผนก สำเร็จ!`);
+  prog.textContent=`✅ Export ครบทั้ง ${depts.length} ส่วนแล้ว!`;
+  if(allBtn){allBtn.textContent='✅ ครบทุกส่วนแล้ว'; allBtn.disabled=false;}
+  toast(`✅ Export PDF ครบ ${depts.length} ส่วน สำเร็จ!`);
 }
 
 /* ─── LINE SUMMARY ─── */
@@ -828,7 +849,7 @@ function buildSummaryText(){
         if(p.welf) txt+=`     ❤️ สวัสดิการ ${thaiNum(p.welf)} บ.\n`;
         txt+=`     💰 รวม ${thaiNum(p.total)} บาท\n`;
       });
-      txt+=`   ┌ รวมแผนก: ${thaiNum(dtotal)} บาท\n`;
+      txt+=`   ┌ รวมส่วน: ${thaiNum(dtotal)} บาท\n`;
     });
     txt+=`\n${'═'.repeat(32)}\n💵 ยอดรวมทั้งสิ้น: ${thaiNum(grand)} บาท\n👥 รวม ${data.length} คน\n`;
   } else if(summaryMode==='all'){
@@ -840,8 +861,8 @@ function buildSummaryText(){
     data.forEach(p=>{if(!depts[p.dept])depts[p.dept]={count:0,total:0};depts[p.dept].count++;depts[p.dept].total+=p.total;});
     const totalAll=data.reduce((a,b)=>a+b.total,0);
     txt+=`📊 สรุปภาพรวม ค่าสาธารณูปโภค\nประจำเดือน ${monthYear}\n🗓️ ${dateStr}\n${'═'.repeat(32)}\n\n`;
-    txt+=`👥 ผู้อยู่อาศัย: ${data.length} คน\n🏢 จำนวนแผนก: ${Object.keys(depts).length} แผนก\n`;
-    txt+=`💵 ยอดรวมทั้งสิ้น: ${thaiNum(totalAll)} บาท\n\n📁 แยกตามแผนก:\n`;
+    txt+=`👥 ผู้อยู่อาศัย: ${data.length} คน\n🏢 จำนวนส่วน: ${Object.keys(depts).length} ส่วน\n`;
+    txt+=`💵 ยอดรวมทั้งสิ้น: ${thaiNum(totalAll)} บาท\n\n📁 แยกตามส่วน:\n`;
     Object.keys(depts).sort().forEach(d=>{txt+=`  • ${d}: ${thaiNum(depts[d].total)} บ. (${depts[d].count} คน)\n`;});
     txt+=`\n— สชป.9 ส่วนบริหารทั่วไป —`;
   }
@@ -884,6 +905,24 @@ function doPrint(people){
 function printAll()      {doPrint(ALL);}
 function printFiltered() {doPrint(filtered);}
 function printOne(id)    {const d=ALL.find(x=>x.id===id);if(d)doPrint([d]);}
+
+/* ─── ECO MODE ─── */
+let ecoMode=true;
+function toggleEco(){
+  ecoMode=!ecoMode;
+  const btn=document.getElementById('ecoToggle');
+  if(ecoMode){
+    document.body.classList.add('eco-mode');
+    btn.textContent='🌿 ประหยัดหมึก';
+    btn.classList.add('active');
+    toast('🌿 โหมดประหยัดหมึก — พื้นหลังจะเป็นสีขาว');
+  } else {
+    document.body.classList.remove('eco-mode');
+    btn.textContent='🖨️ ปกติ';
+    btn.classList.remove('active');
+    toast('🖨️ โหมดปกติ — พิมพ์สีเต็ม');
+  }
+}
 
 /* ─── TOAST ─── */
 function toast(msg){
