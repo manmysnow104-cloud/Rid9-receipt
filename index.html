@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบออกใบรับเงิน – สำนักงานชลประทานที่ 9</title>
+<title>ระบบออกใบรับเงิน – ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -452,7 +452,7 @@ body.eco-mode .st-v { color:#0a0f1a !important; }
   <div class="header-icon">💧</div>
   <div>
     <h1>ระบบออกใบรับเงินค่าสาธารณูปโภค</h1>
-    <p>สำนักงานชลประทานที่ 9 • K.KITJA รองรับทุกๆเดือน</p>
+    <p>ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป  • K.KITJA รองรับทุกๆเดือน</p>
   </div>
 </div>
 
@@ -803,14 +803,14 @@ function buildReceiptHTML(d){
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize*1.8}px;max-width:100%;object-fit:contain;">`:'';
   const displayName=sigName||'............................................';
   return `<div class="receipt">
-    <div class="r-head"><div class="org">สำนักงานชลประทานที่ 9</div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
+    <div class="r-head"><div class="org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div><h2>ใบรับเงินรับเงินค่าสาธารณูปโภค<br>ประจำเดือน ${monthYear}</h2><div class="rno">เลขที่ ${rno(d.id)}</div></div>
     <div class="r-body">
       <div class="r-meta"><div><div class="lb">ชื่อ-สกุล</div><div class="vl">${d.name}</div></div><div><div class="lb">แผนก</div><div class="vl" style="font-size:10px">${d.dept}</div></div></div>
       <table class="r-tbl"><thead><tr><th>รายการ</th><th>จำนวนเงิน (บาท)</th></tr></thead><tbody>
         <tr><td>💧 ค่าน้ำประปา</td><td class="${d.water?'':'zero'}">${fmt(d.water)}</td></tr>
         <tr><td>⚡ ค่าไฟฟ้า</td><td class="${d.elec?'':'zero'}">${fmt(d.elec)}</td></tr>
         <tr><td>🗑️ ค่าขยะ</td><td class="${d.trash?'':'zero'}">${fmt(d.trash)}</td></tr>
-        <tr><td>❤️ สวัสดิการ</td><td class="${d.welf?'':'zero'}">${fmt(d.welf)}</td></tr>
+        <tr><td>💲 สวัสดิการ</td><td class="${d.welf?'':'zero'}">${fmt(d.welf)}</td></tr>
       </tbody></table>
       <div class="r-total"><div class="tl">ยอดรวมทั้งสิ้น</div><div class="tv">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} <span style="font-size:13px;opacity:.75">บาท</span></div></div>
     </div>
@@ -827,14 +827,14 @@ function buildReceiptHTML(d){
 
 /* ─── SLIP HTML ─── */
 function buildSlipHTML(d){
-  const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
+  const items=[{l:'💧 ค่าน้ำประปา',v:d.water},{l:'⚡ ค่าไฟฟ้า',v:d.elec},{l:'🗑️ ค่าขยะ',v:d.trash},{l:'💲 สวัสดิการ',v:d.welf}];
   // จำกัดความสูงรูปลายเซ็นให้ไม่เกิน 18mm (≈68px ที่ 96dpi) เพื่อให้ชื่อ+ตำแหน่งยังแสดงได้
   const capSize=Math.min(sigSize,55);
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${capSize}px;max-width:80%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
   return `<div class="slip">
     <div class="slip-head">
-      <div class="s-org">สำนักงานชลประทานที่ 9</div>
+      <div class="s-org">ฝ่ายการเงินและบัญชี ส่วนบริหารทั่วไป </div>
       <div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
       <div class="s-no">เลขที่ ${rno(d.id)}</div>
     </div>
@@ -977,7 +977,7 @@ function buildSummaryText(){
         if(p.water)txt+=`     💧 ค่าน้ำ ${thaiNum(p.water)} บ.\n`;
         if(p.elec) txt+=`     ⚡ ค่าไฟ ${thaiNum(p.elec)} บ.\n`;
         if(p.trash)txt+=`     🗑️ ค่าขยะ ${thaiNum(p.trash)} บ.\n`;
-        if(p.welf) txt+=`     ❤️ สวัสดิการ ${thaiNum(p.welf)} บ.\n`;
+        if(p.welf) txt+=`     💲 สวัสดิการ ${thaiNum(p.welf)} บ.\n`;
         txt+=`     💰 รวม ${thaiNum(p.total)} บาท\n`;
       });
       txt+=`   ┌ รวมแผนก: ${thaiNum(dtotal)} บาท\n`;
