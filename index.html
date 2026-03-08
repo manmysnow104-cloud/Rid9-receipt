@@ -539,18 +539,42 @@ function buildSlipHTML(d){
   const items=[{l:'ค่าน้ำประปา',v:d.water},{l:'ค่าไฟฟ้า',v:d.elec},{l:'ค่าขยะ',v:d.trash},{l:'สวัสดิการ',v:d.welf}];
   const sigImg=sigDataUrl?`<img src="${sigDataUrl}" style="max-height:${sigSize}px;max-width:85%;object-fit:contain;display:block;margin:0 auto;">`:'';
   const displayName=sigName||'.............................';
-  return `<div class="slip">
-    <div class="slip-head"><div class="s-org">สำนักงานชลประทานที่ 9</div><div class="s-title">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div><div class="s-no">เลขที่ ${rno(d.id)}</div></div>
+
+  return `<div class="slip" style="padding: 20px; font-family: sans-serif;">
+    <div class="slip-head" style="text-align: center; margin-bottom: 15px;">
+      <div class="s-org" style="font-weight: bold;">สำนักงานชลประทานที่ 9</div>
+      <div class="s-title" style="margin: 5px 0;">ใบรับเงินค่าสาธารณูปโภค ประจำเดือน ${monthYear}</div>
+      <div class="s-no">เลขที่ ${rno(d.id)}</div>
+    </div>
+
     <div class="slip-body">
-      <div class="slip-name">${d.name}</div><div class="slip-dept">${d.dept}</div>
-      <table class="slip-rows">${items.map(it=>`<tr><td>${it.l}</td><td>${it.v?it.v.toLocaleString('th-TH',{minimumFractionDigits:2}):'-'}</td></tr>`).join('')}</table>
-      <div class="slip-total"><div class="st-l">รวมทั้งสิ้น</div><div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div></div>
-      <div class="slip-sig"><div class="slip-sig-box">
-        <div class="ss-label">ผู้รับเงิน</div>
-        <div class="ss-img">${sigImg}</div>
-        <div class="ss-line"></div><div class="ss-name">${displayName}</div>
-        ${sigTitle?`<div class="ss-title">${sigTitle}</div>`:''}
-      </div></div>
+      <div style="margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
+        <div class="slip-name"><b>ชื่อ-สกุล:</b> ${d.name}</div>
+        <div class="slip-dept" style="font-size: 0.9em; color: #555;"><b>แผนก:</b> ${d.dept}</div>
+      </div>
+
+      <table class="slip-rows" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+        ${items.map(it=>`
+          <tr>
+            <td style="padding: 5px 0;">${it.l}</td>
+            <td style="text-align: right; padding: 5px 0;">${it.v ? it.v.toLocaleString('th-TH',{minimumFractionDigits:2}) : '-'}</td>
+          </tr>`).join('')}
+      </table>
+
+      <div class="slip-total" style="display: flex; justify-content: space-between; font-weight: bold; border-top: 1px solid #000; padding-top: 10px; margin-bottom: 30px;">
+        <div class="st-l">รวมทั้งสิ้น</div>
+        <div class="st-v">${d.total.toLocaleString('th-TH',{minimumFractionDigits:2})} บาท</div>
+      </div>
+
+      <div class="slip-sig" style="margin-top: 40px; text-align: center;">
+        <div class="slip-sig-box" style="display: inline-block; min-width: 200px;">
+          <div class="ss-label" style="margin-bottom: 10px;">ผู้รับเงิน</div>
+          <div class="ss-img" style="height: ${sigSize}px; margin-bottom: 5px;">${sigImg}</div>
+          <div class="ss-line" style="border-bottom: 1px solid #000; margin-bottom: 5px;"></div>
+          <div class="ss-name">(${displayName})</div>
+          ${sigTitle ? `<div class="ss-title" style="font-size: 0.85em; margin-top: 5px;">${sigTitle}</div>` : ''}
+        </div>
+      </div>
     </div>
   </div>`;
 }
