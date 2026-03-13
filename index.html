@@ -714,7 +714,7 @@ function handleFile(file){
   if(!file) return;
   monthYear=file.name.replace(/\.xlsx?$/i,'').replace(/_/g,' ').trim();
   const reader=new FileReader();
-  reader.onload=e=>{ const wb=XLSX.read(e.target.result,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]]; parseRows(XLSX.utils.sheet_to_json(ws,{header:1,defval:null})); };
+  reader.onload=e=>{ const wb=XLSX.read(e.target.result,{type:'array'}); const ws=wb.Sheets['สชป.9']||wb.Sheets[wb.SheetNames[0]]; parseRows(XLSX.utils.sheet_to_json(ws,{header:1,defval:null})); };
   reader.readAsArrayBuffer(file);
 }
 function normDept(s){ return s.replace(/\s*\(ต่อ\)\s*/g,'').replace(/\s+/g,' ').trim(); }
